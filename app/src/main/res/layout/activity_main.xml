@@ -17,11 +17,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Testim i funksionimit te Github-it"/>
+        android:text="Testim i funksionimit te Github-it M.K"/>
 
     <RadioButton
         android:text="Testim i funksionimit të Github-it E.B"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/radioButton" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Testimi i funksionimit te Github-it A.XH"/>
 </LinearLayout>
