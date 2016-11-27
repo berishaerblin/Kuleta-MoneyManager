@@ -1,3 +1,37 @@
 <resources>
-    <string name="app_name">MoneyManager</string>
+    <string name="app_name">Money Manager</string>
+    <string name="pasqyra">Pasqyra</string>
+    <string name="kategoria">Kategoria</string>
+    <string name="kursimet">Kursimet</string>
+    <string name="huazimet">Huazimet</string>
+    <string name="histori">Histori</string>
+    <string name="cilesimet">Cilësimet</string>
+    <string name="ftoni_miqte">Ftoni miqtë</string>
+    <string name="rrethnesh">Rreth nesh</string>
+
+    <string name="drawer_open">Drawer Hapur</string>
+    <string name="drawer_close">Draweri mbyllur</string>
+
+    <string name="hello_blank_fragment">Fragment ende i pa përpunuar</string>
+
+    <string name="next">VAZHDO</string>
+    <string name="skip">TEJKALO</string>
+    <string name="start">FILLO</string>
+
+    <string name="slide_1_title">Pasqyra</string>
+    <string name="slide_1_desc">Pasqyrimi i të gjitha të hollave (shpenzimet dhe fitimet).</string>
+
+    <string name="slide_2_title">Huazimet</string>
+    <string name="slide_2_desc">Llogaritja e huazimeve.</string>
+
+    <string name="slide_3_title">Kursimet</string>
+    <string name="slide_3_desc">Menagjimi më efikas për kursime.</string>
+
+    <string name="slide_4_title">Histori</string>
+    <string name="slide_4_desc">Pasqyra për 12 muajt e vitit (hyrjet dhe daljet).</string>
+
+    <string name="play_again_desc">Për ta parë intron përsëri shko: Settings -> apps -> Money Manager -> clear data</string>
+    <string name="play_again">Fillo përsëri</string>
+
+
 </resources>
