@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/block1menu">
+        <item
+            android:id="@+id/pasqyra"
+            android:title="@string/pasqyra"
+            android:icon="@drawable/ic_home">
+        </item>
+
+        <item
+            android:id="@+id/kategoria"
+            android:title="@string/kategoria"
+            android:icon="@drawable/ic_kategori">
+        </item>
+
+        <item
+            android:id="@+id/kursimet"
+            android:title="@string/kursimet"
+            android:icon="@drawable/ic_kursimet">
+        </item>
+
+        <item
+            android:id="@+id/huazimet"
+            android:title="@string/huazimet"
+            android:icon="@drawable/ic_huazimet">
+        </item>
+
+        <item
+            android:id="@+id/histori"
+            android:title="@string/histori"
+            android:icon="@drawable/ic_histori">
+        </item>
+    </group>
+
+
+    <group
+        android:checkableBehavior="none"
+        android:id="@+id/block2menu">
+            <item
+                android:id="@+id/cilesimet"
+                android:title="@string/cilesimet"
+                android:icon="@drawable/ic_cilesimet">
+            </item>
+
+            <item
+                android:id="@+id/ftoni_miqte"
+                android:title="@string/ftoni_miqte"
+                android:icon="@drawable/ic_ftoni_miqte">
+            </item>
+
+            <item
+                android:id="@+id/rrethnesh"
+                android:title="@string/rrethnesh"
+                android:icon="@drawable/ic_rrethnesh">
+            </item>
+    </group>
+</menu>
