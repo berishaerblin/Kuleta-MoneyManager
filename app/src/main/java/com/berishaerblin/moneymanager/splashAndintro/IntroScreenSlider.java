@@ -110,9 +110,7 @@ public class IntroScreenSlider extends AppCompatActivity {
 
     private void launchHomeScreen() {
         session.setFirstTimeLaunch(false);
-
-        // Pas krijimit te SplashScreenit do te thirret Splashscreeni ne intent
-        startActivity(new Intent(IntroScreenSlider.this, MainActivity.class));
+        startActivity(new Intent(IntroScreenSlider.this, SplashScreen.class));
         finish();
     }
 

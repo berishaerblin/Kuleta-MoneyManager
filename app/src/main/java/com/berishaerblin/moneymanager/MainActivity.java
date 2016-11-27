@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.berishaerblin.moneymanager.R;
 
 public class MainActivity extends AppCompatActivity {
 
