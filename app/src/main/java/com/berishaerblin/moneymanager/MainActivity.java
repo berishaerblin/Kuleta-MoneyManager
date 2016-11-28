@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         // Do te plotesohen kur te krijohet databaza
         nameSurname.setText("Filan Fisteku");
         totalsum.setText("555$");
-        // Vetem testim
+        // TEST
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
