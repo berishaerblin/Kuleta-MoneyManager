@@ -13,8 +13,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.berishaerblin.moneymanager.R;
+import com.berishaerblin.moneymanager.dataBase.*;
 
 public class MainActivity extends AppCompatActivity {
+
+    DataBaseSource ourDatabase;
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ourDatabase = new DataBaseSource(this);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
