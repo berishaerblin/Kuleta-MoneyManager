@@ -36,7 +36,7 @@
 
 
     <group
-        android:checkableBehavior="none"
+        android:checkableBehavior="single"
         android:id="@+id/block2menu">
             <item
                 android:id="@+id/cilesimet"
