@@ -1,19 +1,18 @@
 package com.berishaerblin.moneymanager;
 
-import android.os.PersistableBundle;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.berishaerblin.moneymanager.R;
+
 import com.berishaerblin.moneymanager.dataBase.DataBaseSource;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         totalsum = (TextView)navigationHeaderView.findViewById(R.id.totalS);
 
         nameSurname.setText("Filan Fisteku");
-        totalsum.setText("€ 500.0");
+        totalsum.setText("€500.0");
 
         navigationView.setNavigationItemSelectedListener(this);
     }
