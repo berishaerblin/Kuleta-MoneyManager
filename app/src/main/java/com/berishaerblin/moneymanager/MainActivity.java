@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         totalsum = (TextView)navigationHeaderView.findViewById(R.id.totalS);
 
         nameSurname.setText("Filan Fisteku");
-        totalsum.setText("555$");
+        totalsum.setText("€ 500.0");
 
         navigationView.setNavigationItemSelectedListener(this);
     }
