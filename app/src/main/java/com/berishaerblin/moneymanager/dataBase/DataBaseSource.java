@@ -1,8 +1,11 @@
 package com.berishaerblin.moneymanager.dataBase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.berishaerblin.moneymanager.dataBase.model.Balance;
 
 /**
  * Created by berishaerblin on 11/27/16.
@@ -75,7 +78,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
 
     public DataBaseSource(Context context) {
         super(context, moneyManagerDataBase, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
@@ -93,8 +95,8 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +idIncome+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 +incomeValue+" DOUBLE NOT NULL, "
                 +incomeDate+" TEXT, "
-                +fICategoryType+" TEXT, "
-                +fIBalance+" DOUBLE, "
+                +fICategoryType+" INTEGER, "
+                +fIBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fICategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
                 +"FOREIGN KEY ("+fIBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
@@ -102,16 +104,16 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +idExpense+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 +expenseValue+" DOUBLE NOT NULL, "
                 +expenseDate+" TEXT, "
-                +fECategoryType+" TEXT, "
-                +fEBalance+" DOUBLE, "
+                +fECategoryType+" INTEGER, "
+                +fEBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fECategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
                 +"FOREIGN KEY ("+fEBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
         db.execSQL("CREATE TABLE "+historyTable+"("
                 +idHistory+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 +historyTitle+" TEXT NOT NULL, "
-                +fIncomeHistory+" DOUBLE, "
-                +fExpenseHistory+" DOUBLE, "
+                +fIncomeHistory+" INTEGER, "
+                +fExpenseHistory+" INTEGER, "
                 +"FOREIGN KEY ("+fIncomeHistory+") REFERENCES "+incomeTable+" ("+idIncome+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
                 +"FOREIGN KEY ("+fExpenseHistory+") REFERENCES "+expenseTable+" ("+idExpense+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
@@ -120,7 +122,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +savingsTitle+" TEXT, "
                 +savingsValue+" DOUBLE NOT NULL, "
                 +savingsDate+" TEXT, "
-                +fSBalance+" DOUBLE, "
+                +fSBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fSBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
         db.execSQL("CREATE TABLE "+borrowingTable+"("
@@ -130,7 +132,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +borrowingDate+" TEXT, "
                 +borrowingValue+" DOUBLE, "
                 +borrowingInteres+" DOUBLE, "
-                +fBBalance+" DOUBLE, "
+                +fBBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
     }
@@ -147,4 +149,17 @@ public class DataBaseSource extends SQLiteOpenHelper {
         onCreate(db);
 
     }
+
+    public void insertIntoBalance(Balance balance){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(this.totalBalance,balance.getTotalBalance());
+
+        db.insert(this.balanceTable,null,contentValues);
+        db.close();
+
+    }
+
+
+
 }

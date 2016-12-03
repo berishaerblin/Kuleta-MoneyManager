@@ -13,6 +13,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.berishaerblin.moneymanager.Category.Cilesimet;
+import com.berishaerblin.moneymanager.Category.Histori;
+import com.berishaerblin.moneymanager.Category.Huazimet;
+import com.berishaerblin.moneymanager.Category.Kategoria;
+import com.berishaerblin.moneymanager.Category.Kursimet;
+import com.berishaerblin.moneymanager.Category.Pasqyra.Pasqyra;
+import com.berishaerblin.moneymanager.Category.RrethNesh;
 import com.berishaerblin.moneymanager.dataBase.DataBaseSource;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationHeaderView = navigationView.inflateHeaderView(R.layout.navigation_drawer_header);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
@@ -49,10 +58,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container, new Pasqyra());
         fragmentTransaction.commit();
+        navigationView.setCheckedItem(R.id.pasqyra);
         getSupportActionBar().setTitle(R.string.app_name);
 
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationHeaderView = navigationView.inflateHeaderView(R.layout.navigation_drawer_header);
 
         nameSurname = (TextView)navigationHeaderView.findViewById(R.id.namesurname);
         totalsum = (TextView)navigationHeaderView.findViewById(R.id.totalS);

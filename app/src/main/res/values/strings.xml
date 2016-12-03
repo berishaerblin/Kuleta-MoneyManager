@@ -34,4 +34,9 @@
     <string name="play_again">Fillo përsëri</string>
 
 
+    <string name="tehyrat">Të hyra</string>
+    <string name="shpenzimet">Shpenzime</string>
+    <string name="addInIncomeOrExpense">Transaksion i ri</string>
+
+
 </resources>

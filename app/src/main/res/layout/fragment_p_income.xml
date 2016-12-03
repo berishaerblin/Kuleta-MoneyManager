@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.berishaerblin.moneymanager.Category.Huazimet">
+    tools:context="com.berishaerblin.moneymanager.Category.Pasqyra.P_Income">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:textSize="30sp"
+        android:text="Tabi i të Hyrave" />
 
 </FrameLayout>
