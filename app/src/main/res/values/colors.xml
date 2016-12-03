@@ -3,6 +3,7 @@
     <color name="colorPrimary">#0097A7</color>
     <color name="colorPrimaryDark">#00838F</color>
     <color name="colorAccent">#AAFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="nav_drawer_header_background">#AA000000</color>
 
     <!-- INTRO SCREEN SLIDER-I-->
