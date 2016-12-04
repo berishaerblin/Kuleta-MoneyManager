@@ -29,6 +29,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
     public static final String idCategory = "idCategory";
     public static final String categoryName = "categoryName";
     public static final String categoryType = "categoryType";
+    public static final String categoryImage = "categoryImage";
 
     //Income Table
     public static final String incomeTable = "incomeTable";
@@ -86,10 +87,11 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +idBalance+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 +totalBalance+" DOUBLE);");
 
-        db.execSQL("CREATE TABLE "+categoryTable+"("
-                +idCategory+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-                +categoryName+" TEXT NOT NULL, "
-                +categoryType+" TEXT NOT NULL);");
+        db.execSQL("CREATE TABLE " + categoryTable + "("
+                + idCategory + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + categoryName + " TEXT NOT NULL, "
+                + categoryType + " TEXT NOT NULL, "
+                + categoryImage + " INTEGER );");
 
         db.execSQL("CREATE TABLE "+incomeTable+"("
                 +idIncome+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -153,9 +155,9 @@ public class DataBaseSource extends SQLiteOpenHelper {
     public void insertIntoBalance(Balance balance){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(this.totalBalance,balance.getTotalBalance());
+        contentValues.put(totalBalance, balance.getTotalBalance());
 
-        db.insert(this.balanceTable,null,contentValues);
+        db.insert(balanceTable, null, contentValues);
         db.close();
 
     }
