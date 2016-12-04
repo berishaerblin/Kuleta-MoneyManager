@@ -37,6 +37,9 @@
     <string name="tehyrat">Të hyra</string>
     <string name="shpenzimet">Shpenzime</string>
     <string name="addInIncomeOrExpense">Transaksion i ri</string>
+    <string name="hint_value">Vlera</string>
+    <string name="categories">Kategoritë</string>
+    <string name="empty">Plotësoni te dhënat</string>
 
 
 </resources>
