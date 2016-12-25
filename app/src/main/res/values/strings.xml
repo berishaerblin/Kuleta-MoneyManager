@@ -40,6 +40,8 @@
     <string name="hint_value">Vlera</string>
     <string name="categories">Kategoritë</string>
     <string name="empty">Plotësoni te dhënat</string>
+    <string name="expenseText">Shpenzim</string>
+    <string name="incomeText">Hyrje</string>
 
 
 </resources>
