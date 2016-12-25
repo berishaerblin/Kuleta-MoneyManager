@@ -1,5 +1,6 @@
 package com.berishaerblin.moneymanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -129,8 +130,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.ftoni_miqte:
-                //Do te krijohet nje AlertDialog per shperndarje te aplikacionit.
-                Toast.makeText(MainActivity.this, "Se Shpejti", Toast.LENGTH_SHORT).show();
+//                //Do te krijohet nje AlertDialog per shperndarje te aplikacionit.
+//                Toast.makeText(MainActivity.this, "Se Shpejti", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,"Menaxhoni parat tuaja. - Money Manager");
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent,"Ftoni miqte...!"));
                 item.setCheckable(false);
                 break;
 

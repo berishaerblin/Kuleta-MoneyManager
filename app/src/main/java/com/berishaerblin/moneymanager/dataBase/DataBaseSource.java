@@ -91,7 +91,8 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 + idCategory + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + categoryName + " TEXT NOT NULL, "
                 + categoryType + " TEXT NOT NULL, "
-                + categoryImage + " INTEGER );");
+                + categoryImage + " TEXT NOT NULL );");
+
 
         db.execSQL("CREATE TABLE "+incomeTable+"("
                 +idIncome+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -137,6 +138,23 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +fBBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Salary','INCOME','R.drawable.salary' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Bonus','INCOME','R.drawable.bonus' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Freelance','INCOME','R.drawable.freelance' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Gift','INCOME','R.drawable.gift' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'General','EXPENSE','R.drawable.general' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Kids','EXPENSE','R.drawable.kids' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'House','EXPENSE','R.drawable.home' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Clothes','EXPENSE','R.drawable.clothes' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Shopping','EXPENSE','R.drawable.shop' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Gift','EXPENSE','R.drawable.gift' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Food','EXPENSE','R.drawable.food' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Payments','EXPENSE','R.drawable.payments' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Transport','EXPENSE','R.drawable.transport' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Utilities','EXPENSE','R.drawable.unitilies' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Personal','EXPENSE','R.drawable.personal' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Car','EXPENSE','R.drawable.car' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Vacation','EXPENSE','R.drawable.vacation' );" );
     }
 
     @Override
