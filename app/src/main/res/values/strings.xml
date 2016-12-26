@@ -42,6 +42,10 @@
     <string name="empty">Plotësoni te dhënat</string>
     <string name="expenseText">Shpenzim</string>
     <string name="incomeText">Hyrje</string>
+    <string name="app_version">Version 1.0</string>
+    <string name="app_date">Dhjetor 2016</string>
+    <string name="aboutapp">Money Menager është aplikacion i cili shërben për menaxhimin e parasë, saktësishtë menaxhimin e fitimeve dhe të shpenzimeve mujore. Me anë të këtij aplikacioni ju mund ti shikoni të gjitha harxhimet dhe fitimet që i keni bërë mbrenda një periudhe kohore, poashtu keni mundësinë që ti menaxhoni huazimet apo kursimet tuaja.Aplikacioni është në fazën e zhvillimit dhe shumë shpejtë pritet që të lançohet faza finale e aplikacionit! </string>
+
 
 
 </resources>
