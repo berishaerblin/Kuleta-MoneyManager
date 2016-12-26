@@ -144,14 +144,14 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Gift','INCOME','R.drawable.gift' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'General','EXPENSE','R.drawable.general' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Kids','EXPENSE','R.drawable.kids' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'House','EXPENSE','R.drawable.home' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'House','EXPENSE','R.drawable.house' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Clothes','EXPENSE','R.drawable.clothes' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Shopping','EXPENSE','R.drawable.shop' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Gift','EXPENSE','R.drawable.gift' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Food','EXPENSE','R.drawable.food' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Payments','EXPENSE','R.drawable.payments' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Transport','EXPENSE','R.drawable.transport' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Utilities','EXPENSE','R.drawable.unitilies' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Utilities','EXPENSE','R.drawable.utilities' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Personal','EXPENSE','R.drawable.personal' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Car','EXPENSE','R.drawable.car' );" );
         db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Vacation','EXPENSE','R.drawable.vacation' );" );
