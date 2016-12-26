@@ -2,10 +2,23 @@ package com.berishaerblin.moneymanager.dataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.berishaerblin.moneymanager.R;
 import com.berishaerblin.moneymanager.dataBase.model.Balance;
+import com.berishaerblin.moneymanager.dataBase.model.Category;
+import com.berishaerblin.moneymanager.dataBase.model.Expense;
+import com.berishaerblin.moneymanager.dataBase.model.Income;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by berishaerblin on 11/27/16.
@@ -103,6 +116,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +"FOREIGN KEY ("+fICategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
                 +"FOREIGN KEY ("+fIBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
+
         db.execSQL("CREATE TABLE "+expenseTable+"("
                 +idExpense+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 +expenseValue+" DOUBLE NOT NULL, "
@@ -137,24 +151,24 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +borrowingInteres+" DOUBLE, "
                 +fBBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Rrogë','INCOME','R.drawable.salary' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shpërblim','INCOME','R.drawable.bonus' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Pune e pavarur','INCOME','R.drawable.freelance' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Dhuratë','INCOME','R.drawable.gift' );" );
 
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Salary','INCOME','R.drawable.salary' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Bonus','INCOME','R.drawable.bonus' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Freelance','INCOME','R.drawable.freelance' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Gift','INCOME','R.drawable.gift' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'General','EXPENSE','R.drawable.general' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Kids','EXPENSE','R.drawable.kids' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'House','EXPENSE','R.drawable.home' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Clothes','EXPENSE','R.drawable.clothes' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Shopping','EXPENSE','R.drawable.shop' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Gift','EXPENSE','R.drawable.gift' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Food','EXPENSE','R.drawable.food' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Payments','EXPENSE','R.drawable.payments' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Transport','EXPENSE','R.drawable.transport' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Utilities','EXPENSE','R.drawable.unitilies' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Personal','EXPENSE','R.drawable.personal' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Car','EXPENSE','R.drawable.car' );" );
-        db.execSQL("INSERT INTO " + categoryTable + " VALUES ( 'Vacation','EXPENSE','R.drawable.vacation' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'I përgjithshëm','EXPENSE','R.drawable.general' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Fëmijë','EXPENSE','R.drawable.kids' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shtëpi','EXPENSE','R.drawable.home' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Veshje','EXPENSE','R.drawable.clothes' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shitblerje','EXPENSE','R.drawable.shop' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Dhuratë','EXPENSE','R.drawable.gift' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Ushqim','EXPENSE','R.drawable.food' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Pagesa','EXPENSE','R.drawable.payments' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Transport','EXPENSE','R.drawable.transport' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shërbime Komunale','EXPENSE','R.drawable.utilities' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Personale','EXPENSE','R.drawable.personal' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Veturë','EXPENSE','R.drawable.car' );" );
+        db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Udhëtime','EXPENSE','R.drawable.vacation' );" );
     }
 
     @Override
@@ -170,16 +184,128 @@ public class DataBaseSource extends SQLiteOpenHelper {
 
     }
 
-    public void insertIntoBalance(Balance balance){
+    public void insertIntoIncome(Income income){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(incomeValue, income.getIncomeValue());
+        contentValues.put(incomeDate, income.getIncomeDate());
+        contentValues.put(fICategoryType, income.getfICategoryType());
+        contentValues.put(fIBalance, income.getfIBalance());
+
+        db.insert(incomeTable, null, contentValues);
+        db.close();
+    }
+
+    public void insertIntoExpense(Expense expense){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(totalBalance, balance.getTotalBalance());
+        contentValues.put(expenseValue, expense.getExpenseValue());
+        contentValues.put(expenseDate, expense.getExpenseDate());
+        contentValues.put(fECategoryType, expense.getfECategoryType());
+        contentValues.put(fEBalance, expense.getfEBalance());
 
-        db.insert(balanceTable, null, contentValues);
+        db.insert(expenseTable, null, contentValues);
         db.close();
-
     }
 
 
+    public List<Category> getAllCategories(){
+        List<Category> categories = new ArrayList<Category>();
+        String selectQuery = "SELECT  * FROM " + categoryTable;
 
+        Log.d("- DB - getAllCategories", selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Category ctg = new Category();
+                ctg.setIdCategory(c.getColumnIndex(idCategory));
+                ctg.setCategoryName(c.getString(c.getColumnIndex(categoryName)));
+                ctg.setCategoryType(c.getString(c.getColumnIndex(categoryType)));
+                ctg.setCategoryImage(c.getString(c.getColumnIndex(categoryImage)));
+
+                categories.add(ctg);
+            } while (c.moveToNext());
+        }
+        return categories;
+    }
+
+//    public List<Object> getAllIncomeAndExpenseOfMonth(String strDt){
+//        List<Object> list = new ArrayList<Object>();
+//        String selectQuery = "SELECT * FROM "+incomeTable+", "+expenseTable
+//                +" WHERE "+ incomeTable+"."+incomeDate + " = '"+strDt
+//                +"' AND "+expenseTable+"."+expenseDate+" = '"+strDt+"'";
+//
+//        Log.d("getAllOfMonth > ", selectQuery);
+//
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor c = db.rawQuery(selectQuery, null);
+//        if (c.moveToFirst()) {
+//            do {
+//                try{
+//                    Income i = new Income();
+//                    i.setIdIncome(c.getColumnIndex(idIncome));
+//                    i.setfICategoryType(c.getColumnIndex(fICategoryType));
+//                    i.setfIBalance(c.getColumnIndex(fIBalance));
+//                    i.setIncomeDate(c.getString(c.getColumnIndex(incomeDate)));
+//                    i.setIncomeValue(c.getColumnIndex(incomeValue));
+//                    list.add(i);
+//                }catch(Exception es){
+//                    Expense e = new Expense();
+//                    e.setIdExpense(c.getColumnIndex(idExpense));
+//                    e.setfECategoryType(c.getColumnIndex(fECategoryType));
+//                    e.setfEBalance(c.getColumnIndex(fEBalance));
+//                    e.setExpenseDate(c.getString(c.getColumnIndex(expenseDate)));
+//                    e.setExpenseValue(c.getColumnIndex(expenseValue));
+//                    list.add(e);
+//                }
+//            } while (c.moveToNext());
+//        }
+//        return list;
+//    }
+
+    public List<Category> getCategoriesByType(String category_type) {
+
+        List<Category> categories = new ArrayList<Category>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + categoryTable + " WHERE " + categoryType + " = '" + category_type + "'";
+
+        Log.d("- DB - getCateogry", selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                Category ctg = new Category();
+                ctg.setIdCategory(c.getColumnIndex(idCategory));
+                ctg.setCategoryName(c.getString(c.getColumnIndex(categoryName)));
+                ctg.setCategoryType(c.getString(c.getColumnIndex(categoryType)));
+                ctg.setCategoryImage(c.getString(c.getColumnIndex(categoryImage)));
+
+                categories.add(ctg);
+            } while (c.moveToNext());
+        }
+        return categories;
+    }
+
+    public Category getCategory(long category_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + categoryTable + " WHERE " + idCategory + " = " + category_id;
+
+        Log.d("- DB - getCateogry", selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c != null)
+            c.moveToFirst();
+
+        Category ctg = new Category();
+        ctg.setIdCategory(c.getColumnIndex(idCategory));
+        ctg.setCategoryName(c.getString(c.getColumnIndex(categoryName)));
+        ctg.setCategoryType(c.getString(c.getColumnIndex(categoryType)));
+        ctg.setCategoryImage(c.getString(c.getColumnIndex(categoryImage)));
+
+        return ctg;
+    }
 }

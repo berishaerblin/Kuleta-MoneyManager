@@ -18,23 +18,19 @@ import android.widget.TextView;
 import com.berishaerblin.moneymanager.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RrethNesh extends Fragment {
 
-    TextView rrethnesh;
-    TextView rrethneshdescription;
     TextView zhvilluesit;
     TextView emrat;
+    TextView rrethnesh;
+    TextView rrethneshdescription;
     TextView kontakt;
     LinearLayout contactForm;
     EditText subjekti;
     EditText mesazhi;
     Button dergo;
-    public RrethNesh() {
-    }
 
+    public RrethNesh() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,12 +52,8 @@ public class RrethNesh extends Fragment {
             public void onClick(View view) {
                 if(rrethneshdescription.getVisibility() == View.GONE){
                     rrethneshdescription.setVisibility(View.VISIBLE);
-                    zhvilluesit.setVisibility(View.GONE);
-                    kontakt.setVisibility(View.GONE);
                 } else {
                     rrethneshdescription.setVisibility(View.GONE);
-                    zhvilluesit.setVisibility(View.VISIBLE);
-                    kontakt.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -71,31 +63,24 @@ public class RrethNesh extends Fragment {
             public void onClick(View view) {
                 if(emrat.getVisibility() == View.GONE) {
                     emrat.setVisibility(View.VISIBLE);
-                    rrethnesh.setVisibility(View.GONE);
-                    kontakt.setVisibility(View.GONE);
                 } else {
                     emrat.setVisibility(View.GONE);
-                    rrethnesh.setVisibility(View.VISIBLE);
-                    kontakt.setVisibility(View.VISIBLE);
                 }
             }
         });
+
 
         kontakt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(contactForm.getVisibility() == View.GONE){
                     contactForm.setVisibility(View.VISIBLE);
-                    rrethnesh.setVisibility(View.GONE);
-                    zhvilluesit.setVisibility(View.GONE);
                 } else {
                     contactForm.setVisibility(View.GONE);
-                    rrethnesh.setVisibility(View.VISIBLE);
-                    zhvilluesit.setVisibility(View.VISIBLE);
                 }
             }
         });
-//Butoni per dergimin e e-mailit
+
         dergo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

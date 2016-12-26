@@ -11,11 +11,12 @@ public class Expense {
 
     private int idExpense;
     private double expenseValue;
-    private Date expenseDate;
-    private String fECategoryType;
+    private String expenseDate;
+    private int fECategoryType;
     private int fEBalance;
 
-    public Expense(int idExpense, double expenseValue, Date expenseDate, String fECategoryType, int fEBalance) {
+    public Expense(){}
+    public Expense(int idExpense, double expenseValue, String expenseDate, int fECategoryType, int fEBalance) {
         this.idExpense = idExpense;
         this.expenseValue = expenseValue;
         this.expenseDate = expenseDate;
@@ -39,19 +40,19 @@ public class Expense {
         this.expenseValue = expenseValue;
     }
 
-    public Date getExpenseDate() {
+    public String getExpenseDate() {
         return expenseDate;
     }
 
-    public void setExpenseDate(Date expenseDate) {
+    public void setExpenseDate(String expenseDate) {
         this.expenseDate = expenseDate;
     }
 
-    public String getfECategoryType() {
+    public int getfECategoryType() {
         return fECategoryType;
     }
 
-    public void setfECategoryType(String fECategoryType) {
+    public void setfECategoryType(int fECategoryType) {
         this.fECategoryType = fECategoryType;
     }
 
