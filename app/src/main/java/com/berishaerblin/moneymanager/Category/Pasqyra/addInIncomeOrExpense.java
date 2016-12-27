@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.berishaerblin.moneymanager.R;
 import com.berishaerblin.moneymanager.dataBase.DataBaseSource;
 import com.berishaerblin.moneymanager.dataBase.model.Category;
+import com.berishaerblin.moneymanager.dataBase.model.Expense;
+import com.berishaerblin.moneymanager.dataBase.model.Income;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,6 +103,12 @@ public class addInIncomeOrExpense extends AppCompatActivity {
         dateTexttoSet = dateConverter(currentDateString)+", " + myDay +" "+ ALBMONTHS[myMonth] + ", " + myYear;
 
         dateTextView.setText(dateTexttoSet);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Expense e = new Expense(1,50.00,dateFormat.format(new Date()),8,1);
+//        dataBaseSource.insertIntoExpense(e);
+        Income i = new Income(20.00,dateFormat.format(new Date()),4,1);
+        dataBaseSource.insertIntoIncome(i);
 //        calendar.setTimeInMillis(System.currentTimeMillis());
 
 //                + ", "
@@ -157,6 +165,8 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                     if (!editText.getText().toString().isEmpty()) {
                         //Shtimi i te dhenave ne Databaze
                         //db.insertInExpense();
+
+
                     } else {
                         textInputLayout.setError(getString(R.string.empty));
                     }
@@ -164,6 +174,8 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                     if (!editText.getText().toString().isEmpty()) {
                         //Shtimi i te dhenave ne Databaze
                         //db.insertInIncome();
+
+
                     } else {
                         textInputLayout.setError(getString(R.string.empty));
                     }

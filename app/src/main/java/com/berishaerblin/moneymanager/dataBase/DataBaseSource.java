@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.berishaerblin.moneymanager.R;
 import com.berishaerblin.moneymanager.dataBase.model.Balance;
@@ -22,6 +23,7 @@ import java.util.Objects;
 
 /**
  * Created by berishaerblin on 11/27/16.
+ * Edited by mKrasniqi & berishaerblin on 12/27/16.
  */
 
 public class DataBaseSource extends SQLiteOpenHelper {
@@ -106,16 +108,14 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 + categoryType + " TEXT NOT NULL, "
                 + categoryImage + " TEXT NOT NULL );");
 
-
         db.execSQL("CREATE TABLE "+incomeTable+"("
                 +idIncome+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 +incomeValue+" DOUBLE NOT NULL, "
                 +incomeDate+" TEXT, "
                 +fICategoryType+" INTEGER, "
                 +fIBalance+" INTEGER, "
-                +"FOREIGN KEY ("+fICategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
-                +"FOREIGN KEY ("+fIBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
-
+                +"FOREIGN KEY ("+fICategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ,"
+                +"FOREIGN KEY ("+fIBalance+") REFERENCES "+balanceTable+" ("+idBalance+") );");
 
         db.execSQL("CREATE TABLE "+expenseTable+"("
                 +idExpense+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -123,8 +123,8 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +expenseDate+" TEXT, "
                 +fECategoryType+" INTEGER, "
                 +fEBalance+" INTEGER, "
-                +"FOREIGN KEY ("+fECategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
-                +"FOREIGN KEY ("+fEBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+                +"FOREIGN KEY ("+fECategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ,"
+                +"FOREIGN KEY ("+fEBalance+") REFERENCES "+balanceTable+" ("+idBalance+") );");
 
         db.execSQL("CREATE TABLE "+historyTable+"("
                 +idHistory+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -151,6 +151,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +borrowingInteres+" DOUBLE, "
                 +fBBalance+" INTEGER, "
                 +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Rrogë','INCOME','R.drawable.salary' );" );
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shpërblim','INCOME','R.drawable.bonus' );" );
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Pune e pavarur','INCOME','R.drawable.freelance' );" );
@@ -186,7 +187,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
 
     public void insertIntoIncome(Income income){
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(incomeValue, income.getIncomeValue());
         contentValues.put(incomeDate, income.getIncomeDate());
@@ -197,8 +197,35 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.close();
     }
 
+//    public void createBalance(Balance balance){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(totalBalance, balance.getTotalBalance());
+//
+//        db.insert(balanceTable, null, contentValues);
+//        db.close();
+//    }
+
+//    public void insertIntoIncome2(Income income){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String query = "INSERT INTO "+incomeTable+" ("+incomeValue+", "+incomeDate+", "+fICategoryType+", "+fIBalance+") " +
+//                "VALUES('"+income.getIncomeValue()+"', '"+income.getIncomeDate()
+//                +"', '"+income.getfICategoryType()+"', '"+income.getfIBalance()+"' );";
+//        db.execSQL(query);
+//    }
+//
+//    public void insertIntoExpense2(Expense expense){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String query = "INSERT INTO "+expenseTable+" ("+expenseValue+", "+expenseDate+", "+fECategoryType+", "+fEBalance+") " +
+//                "VALUES('"+expense.getExpenseValue()+"', '"+expense.getExpenseDate()
+//                +"', '"+expense.getfECategoryType()+"', '"+expense.getfEBalance()+"' );";
+//        db.execSQL(query);
+//    }
+
     public void insertIntoExpense(Expense expense){
         SQLiteDatabase db = this.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(expenseValue, expense.getExpenseValue());
         contentValues.put(expenseDate, expense.getExpenseDate());
@@ -233,39 +260,40 @@ public class DataBaseSource extends SQLiteOpenHelper {
         return categories;
     }
 
-//    public List<Object> getAllIncomeAndExpenseOfMonth(String strDt){
-//        List<Object> list = new ArrayList<Object>();
-//        String selectQuery = "SELECT * FROM "+incomeTable+", "+expenseTable
-//                +" WHERE "+ incomeTable+"."+incomeDate + " = '"+strDt
-//                +"' AND "+expenseTable+"."+expenseDate+" = '"+strDt+"'";
-//
-//        Log.d("getAllOfMonth > ", selectQuery);
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor c = db.rawQuery(selectQuery, null);
-//        if (c.moveToFirst()) {
-//            do {
-//                try{
-//                    Income i = new Income();
-//                    i.setIdIncome(c.getColumnIndex(idIncome));
-//                    i.setfICategoryType(c.getColumnIndex(fICategoryType));
-//                    i.setfIBalance(c.getColumnIndex(fIBalance));
-//                    i.setIncomeDate(c.getString(c.getColumnIndex(incomeDate)));
-//                    i.setIncomeValue(c.getColumnIndex(incomeValue));
-//                    list.add(i);
-//                }catch(Exception es){
-//                    Expense e = new Expense();
-//                    e.setIdExpense(c.getColumnIndex(idExpense));
-//                    e.setfECategoryType(c.getColumnIndex(fECategoryType));
-//                    e.setfEBalance(c.getColumnIndex(fEBalance));
-//                    e.setExpenseDate(c.getString(c.getColumnIndex(expenseDate)));
-//                    e.setExpenseValue(c.getColumnIndex(expenseValue));
-//                    list.add(e);
-//                }
-//            } while (c.moveToNext());
-//        }
-//        return list;
-//    }
+    public List<Object> getAllIncomeAndExpenseOfMonth(String strDt) {
+        List<Object> liste = new ArrayList<Object>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * from "+incomeTable+" where "+incomeDate+" = '"+strDt+"'" +
+                      " UNION SELECT * from "+expenseTable+" where "+expenseDate+" = '"+strDt+"'";
+        Log.d("getAllOfMonth > ", selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Log.d("getColumnName(0)>>",c.getColumnName(0));
+                if (c.getColumnName(0).equals(idExpense)) {
+                    Expense e = new Expense();
+                    e.setIdExpense(c.getColumnIndex(idExpense));
+                    e.setfECategoryType(c.getColumnIndex(fECategoryType));
+                    e.setfEBalance(c.getColumnIndex(fEBalance));
+                    e.setExpenseDate(c.getString(c.getColumnIndex(expenseDate)));
+                    e.setExpenseValue(c.getColumnIndex(expenseValue));
+                    liste.add(e);
+                } else {
+                    Income i = new Income();
+                    i.setIdIncome(c.getColumnIndex(idIncome));
+                    i.setfICategoryType(c.getColumnIndex(fICategoryType));
+                    i.setfIBalance(c.getColumnIndex(fIBalance));
+                    i.setIncomeDate(c.getString(c.getColumnIndex(incomeDate)));
+                    i.setIncomeValue(c.getColumnIndex(incomeValue));
+                    liste.add(i);
+                }
+            } while (c.moveToNext());
+        }
+        return liste;
+    }
 
     public List<Category> getCategoriesByType(String category_type) {
 

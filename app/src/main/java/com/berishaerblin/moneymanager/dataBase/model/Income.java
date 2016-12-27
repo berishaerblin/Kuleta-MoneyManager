@@ -15,6 +15,14 @@ public class Income {
     private int fIBalance;
 
     public Income(){}
+
+    public Income(double incomeValue, String incomeDate, int fICategoryType, int fIBalance) {
+        this.incomeValue = incomeValue;
+        this.incomeDate = incomeDate;
+        this.fICategoryType = fICategoryType;
+
+    }
+
     public Income(int idIncome, double incomeValue, String incomeDate, int fICategoryType, int fIBalance) {
         this.idIncome = idIncome;
         this.incomeValue = incomeValue;

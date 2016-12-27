@@ -16,6 +16,13 @@ public class Expense {
     private int fEBalance;
 
     public Expense(){}
+    public Expense(double expenseValue, String expenseDate, int fECategoryType, int fEBalance) {
+        this.expenseValue = expenseValue;
+        this.expenseDate = expenseDate;
+        this.fECategoryType = fECategoryType;
+        this.fEBalance = fEBalance;
+    }
+
     public Expense(int idExpense, double expenseValue, String expenseDate, int fECategoryType, int fEBalance) {
         this.idExpense = idExpense;
         this.expenseValue = expenseValue;
