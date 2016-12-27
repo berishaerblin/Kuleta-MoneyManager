@@ -10,11 +10,20 @@ public class Income {
 
     private int idIncome;
     private double incomeValue;
-    private Date incomeDate;
+    private String incomeDate;
     private int fICategoryType;
     private int fIBalance;
 
-    public Income(int idIncome, double incomeValue, Date incomeDate, int fICategoryType, int fIBalance) {
+    public Income(){}
+
+    public Income(double incomeValue, String incomeDate, int fICategoryType, int fIBalance) {
+        this.incomeValue = incomeValue;
+        this.incomeDate = incomeDate;
+        this.fICategoryType = fICategoryType;
+
+    }
+
+    public Income(int idIncome, double incomeValue, String incomeDate, int fICategoryType, int fIBalance) {
         this.idIncome = idIncome;
         this.incomeValue = incomeValue;
         this.incomeDate = incomeDate;
@@ -38,11 +47,11 @@ public class Income {
         this.incomeValue = incomeValue;
     }
 
-    public Date getIncomeDate() {
+    public String getIncomeDate() {
         return incomeDate;
     }
 
-    public void setIncomeDate(Date incomeDate) {
+    public void setIncomeDate(String incomeDate) {
         this.incomeDate = incomeDate;
     }
 

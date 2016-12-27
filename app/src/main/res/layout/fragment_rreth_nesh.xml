@@ -17,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:gravity="center"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/logo"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -62,7 +62,6 @@
                     android:paddingRight="15dp"
                     android:id="@+id/description"/>
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,7 +74,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Elvudin Basha \nMergim Krasniqi\nErblin Berisha\nArtan Xhaha"
+                    android:text="Zhvilluar nga disa Student të Universitetit të Prizrenit 'Ukshin Hoti'. "
                     android:visibility="gone"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -94,6 +93,8 @@
                     android:orientation="vertical"
                     android:id="@+id/contactForm"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:visibility="gone">
 
                     <EditText

@@ -1,16 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.berishaerblin.moneymanager.Category.Pasqyra.Pasqyra">
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llshuma"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:text="@string/bilanci"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:id="@+id/shumaE"
+            android:text="500.00€"
+            android:paddingRight="10dp"/>
+    </LinearLayout>
 
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="50sp"
-        android:text="Fillimi" />
+        android:layout_below="@+id/llshuma"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:id="@+id/Lstpasqyra">
+    </ListView>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -27,4 +50,4 @@
             android:id="@+id/fab_add" />
     </android.support.design.widget.CoordinatorLayout>
 
-</FrameLayout>
+</RelativeLayout>

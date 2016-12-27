@@ -9,9 +9,11 @@ public class Category {
     private int idCategory;
     private String categoryName;
     private String categoryType;
-    private int categoryImage;
+    private String categoryImage;
 
-    public Category(int idCategory, String categoryName, String categoryType, int categoryImage) {
+    public Category(){}
+
+    public Category(int idCategory, String categoryName, String categoryType, String categoryImage) {
         this.idCategory = idCategory;
         this.categoryName = categoryName;
         this.categoryType = categoryType;
@@ -42,11 +44,11 @@ public class Category {
         this.categoryType = categoryType;
     }
 
-    public int getCategoryImage() {
+    public String getCategoryImage() {
         return categoryImage;
     }
 
-    public void setCategoryImage(int categoryImage) {
+    public void setCategoryImage(String categoryImage) {
         this.categoryImage = categoryImage;
     }
 }
