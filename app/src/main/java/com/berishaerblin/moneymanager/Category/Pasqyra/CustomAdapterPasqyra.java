@@ -63,7 +63,7 @@ public class CustomAdapterPasqyra extends BaseAdapter {
             TextView date = (TextView) view.findViewById(R.id.list_date);
 
         Object i = mirrors.get(position);
-
+//        i.getClass().getName().equals("Imcome");
         if(i instanceof Income){
             Income income = (Income) mirrors.get(position);
             sum.setTextColor(context.getResources().getColor(R.color.bg_screen2));

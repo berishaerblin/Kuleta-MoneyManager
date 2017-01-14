@@ -55,7 +55,7 @@ public class Pasqyra extends Fragment {
 //        dataBaseSource.createBalance(b);
 
         Income i = new Income(20.00,dateFormat.format(new Date()),4,1);
-        Expense e = new Expense(20.00,dateFormat.format(new Date()),6,1);
+        Expense e = new Expense(60.00,dateFormat.format(new Date()),6,1);
 
         mirrors.add(e);
         mirrors.add(i);
