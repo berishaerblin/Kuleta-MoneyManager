@@ -33,10 +33,8 @@ public class RrethNesh extends Fragment {
     public RrethNesh() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rreth_nesh, container, false);
-
         rrethnesh = (TextView) v.findViewById(R.id.rrethnesh);
         rrethneshdescription = (TextView) v.findViewById(R.id.description);
         zhvilluesit = (TextView) v.findViewById(R.id.zhvilluesit);
@@ -105,8 +103,6 @@ public class RrethNesh extends Fragment {
                 }
             }
         });
-
-
 
         return v;
     }

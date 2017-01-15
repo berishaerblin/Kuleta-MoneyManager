@@ -1,0 +1,58 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:background="@color/bg_screen5"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:id="@+id/la"
+        android:gravity="center"
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_account_circle"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/name"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Emri" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/surname"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mbiemri" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

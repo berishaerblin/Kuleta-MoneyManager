@@ -1,6 +1,7 @@
 package com.berishaerblin.moneymanager.splashAndintro;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +11,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.berishaerblin.moneymanager.MainActivity;
 import com.berishaerblin.moneymanager.R;
 
-public class IntroScreenSlider  extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class IntroScreenSlider extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
     ImageButton btn_finish, btn_next, btn_prev;
 
@@ -23,8 +25,13 @@ public class IntroScreenSlider  extends AppCompatActivity implements ViewPager.O
     ViewPagerAdapter adapter;
     private LinearLayout pager_indicator;
     private int dotsCount;
+    String name = "";
+    String surname = "";
     private ImageView[] dots;
     int ngjyrat[] = { R.color.bg_screen1, R.color.bg_screen2, R.color.bg_screen3,R.color.bg_screen4 };
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +41,15 @@ public class IntroScreenSlider  extends AppCompatActivity implements ViewPager.O
         pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+        preferences = getApplicationContext().getSharedPreferences("ProfileData",MODE_PRIVATE);
 
         addfragment("Pasqyrimi i të gjitha të hollave (shpenzimet dhe fitimet).",ngjyrat[0],R.drawable.ic_home);
         addfragment("Llogaritja e huazimeve.",ngjyrat[1],R.drawable.ic_huazimet);
         addfragment("Menagjimi më efikas për kursime.",ngjyrat[2],R.drawable.ic_kursimet);
         addfragment("Pasqyra për 12 muajt e vitit (hyrjet dhe daljet).",ngjyrat[3],R.drawable.ic_histori);
 
+        Profile p = new Profile();
+        adapter.addFragment(p,"");
 
         mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(0);
@@ -66,9 +76,18 @@ public class IntroScreenSlider  extends AppCompatActivity implements ViewPager.O
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(IntroScreenSlider.this, MainActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
+               if(!name.equals("") && !surname.equals("")){
+                   editor = preferences.edit();
+                   editor.putString("name",name);
+                   editor.putString("surname",surname);
+                   editor.commit();
+
+                   startActivity(new Intent(IntroScreenSlider.this, MainActivity.class));
+                   overridePendingTransition(0, 0);
+                   finish();
+               } else {
+                   Toast.makeText(getApplicationContext(),"Plotësoi të dhënat",Toast.LENGTH_SHORT).show();
+               }
             }
         });
         setPageViewIndicator();
@@ -153,6 +172,15 @@ public class IntroScreenSlider  extends AppCompatActivity implements ViewPager.O
             btn_next.setVisibility(View.VISIBLE);
             btn_finish.setVisibility(View.GONE);
         }
+    }
+
+    void onTextChangedName(String text){
+        this.name=text;
+    }
+
+    void onTextChangedSurname(String text){
+        this.surname=text;
+
     }
 
     @Override

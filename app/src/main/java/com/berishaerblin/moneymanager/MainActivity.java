@@ -1,16 +1,24 @@
 package com.berishaerblin.moneymanager;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +42,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     View navigationHeaderView;
     FragmentTransaction fragmentTransaction;
-
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     TextView nameSurname;
     TextView totalsum;
 
+    String name,surname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +76,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nameSurname = (TextView)navigationHeaderView.findViewById(R.id.namesurname);
         totalsum = (TextView)navigationHeaderView.findViewById(R.id.totalS);
 
-        nameSurname.setText("Filan Fisteku");
+        preferences = getApplicationContext().getSharedPreferences("ProfileData",MODE_PRIVATE);
+        name = preferences.getString("name","");
+        surname = preferences.getString("surname","");
+
+        nameSurname.setText(name +" "+surname);
         totalsum.setText("€500.0");
 
+        nameSurname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(MainActivity.this);
+                View mView = layoutInflaterAndroid.inflate(R.layout.profiledialog, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText namee = (EditText) mView.findViewById(R.id.namee);
+                final EditText surnamee = (EditText) mView.findViewById(R.id.surnamee);
+
+                alertDialogBuilderUserInput
+                        .setCancelable(false)
+                        .setPositiveButton("Ruaj", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                if(!namee.getText().toString().isEmpty() && !surnamee.getText().toString().isEmpty()){
+                                    editor = preferences.edit();
+                                    editor.putString("name",namee.getText().toString());
+                                    editor.putString("surname",surnamee.getText().toString());
+                                    editor.commit();
+                                    nameSurname.setText(namee.getText().toString() +" "+surnamee.getText().toString());
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Plotësoi të dhënat!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+
+                        .setNegativeButton("Largohu",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                alertDialogAndroid.show();
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -130,8 +182,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.ftoni_miqte:
-//                //Do te krijohet nje AlertDialog per shperndarje te aplikacionit.
-//                Toast.makeText(MainActivity.this, "Se Shpejti", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT,"Menaxhoni parat tuaja. - Money Manager");
