@@ -48,6 +48,8 @@
     <string name="bilanci">Bilanci</string>
     <string name="name">Emri</string>
     <string name="surname">Mbiemri</string>
+    <string name="hint_title">Titulli</string>
+    <string name="addKursime">Kursim i ri</string>
 
 
 </resources>

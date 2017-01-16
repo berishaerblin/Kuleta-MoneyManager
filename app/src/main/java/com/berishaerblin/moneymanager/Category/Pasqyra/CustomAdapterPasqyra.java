@@ -13,6 +13,7 @@ import com.berishaerblin.moneymanager.dataBase.DataBaseSource;
 import com.berishaerblin.moneymanager.dataBase.model.Category;
 import com.berishaerblin.moneymanager.dataBase.model.Expense;
 import com.berishaerblin.moneymanager.dataBase.model.Income;
+import com.berishaerblin.moneymanager.dataBase.model.IncomeExpense;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,11 +27,11 @@ import java.util.List;
 public class CustomAdapterPasqyra extends BaseAdapter {
 
     private Context context;
-    private List<Object> mirrors = new ArrayList<Object>();
+    private List<IncomeExpense> mirrors = new ArrayList<IncomeExpense>();
     private static LayoutInflater inflater = null;
     DataBaseSource dataBaseSource;
 
-    public CustomAdapterPasqyra(Context context, List<Object> mirrors){
+    public CustomAdapterPasqyra(Context context, List<IncomeExpense> mirrors){
         this.context = context;
         this.mirrors = mirrors;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,10 +63,10 @@ public class CustomAdapterPasqyra extends BaseAdapter {
             TextView sum = (TextView) view.findViewById(R.id.list_sum);
             TextView date = (TextView) view.findViewById(R.id.list_date);
 
-        Object i = mirrors.get(position);
-//        i.getClass().getName().equals("Imcome");
-        if(i instanceof Income){
-            Income income = (Income) mirrors.get(position);
+        IncomeExpense i = mirrors.get(position);
+
+        if(i.getIdIncome() != -1){
+            Income income = dataBaseSource.getIncomeById(i.getIdIncome());
             sum.setTextColor(context.getResources().getColor(R.color.bg_screen2));
             sum.setText(String.valueOf(income.getIncomeValue()) + "€");
 
@@ -77,7 +78,7 @@ public class CustomAdapterPasqyra extends BaseAdapter {
             title.setText(c.getCategoryName());
 
         } else {
-            Expense expense = (Expense) mirrors.get(position);
+            Expense expense = dataBaseSource.getExpenseById(i.getIdExpense());
             sum.setTextColor(context.getResources().getColor(R.color.bg_screen1));
             sum.setText("-" + String.valueOf(expense.getExpenseValue()) + "€");
 

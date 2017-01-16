@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.berishaerblin.moneymanager.R;
 import com.berishaerblin.moneymanager.dataBase.DataBaseSource;
+import com.berishaerblin.moneymanager.dataBase.model.Balance;
 import com.berishaerblin.moneymanager.dataBase.model.Category;
 import com.berishaerblin.moneymanager.dataBase.model.Expense;
 import com.berishaerblin.moneymanager.dataBase.model.Income;
@@ -62,11 +64,15 @@ public class addInIncomeOrExpense extends AppCompatActivity {
     private String myAlbDay;
     private String myAlbMonth;
     String dateTexttoSet;
-
+    Date daySelected;
+    boolean isDaySelected = false;
     DataBaseSource dataBaseSource;
     CustomAdapterCategory customAdapterCategory;
     int categorySelected;
+    double value;
     List<Category> arrayListCategories;
+    Balance balance;
+    SimpleDateFormat sf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +90,6 @@ public class addInIncomeOrExpense extends AppCompatActivity {
         textInputLayout = (TextInputLayout) findViewById(R.id.input_layout_value);
         dataBaseSource = new DataBaseSource(getApplicationContext());
         categoriesList = (ListView) findViewById(R.id.categoriesList);
-
         arrayListCategories = new ArrayList<Category>();
         customAdapterCategory = new CustomAdapterCategory(getApplicationContext(),arrayListCategories);
         categoriesList.setAdapter(customAdapterCategory);
@@ -106,18 +111,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
         dateTextView.setText(dateTexttoSet);
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-
-//                + ", "
-//                + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault())
-//                + " "
-//                + calendar.get(Calendar.DATE)
-//                + ", "
-//                + calendar.get(Calendar.YEAR);
-//
-//        dateTextView.setText(dateString);
-
+        sf = new SimpleDateFormat("MM");
         arrayListCategories.addAll(dataBaseSource.getCategoriesByType("EXPENSE"));
         expenseColor.setBackgroundColor(getResources().getColor(R.color.expenseColor));
 
@@ -151,43 +145,51 @@ public class addInIncomeOrExpense extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                categorySelected = arrayListCategories.get(i).getIdCategory();
-                Toast.makeText(addInIncomeOrExpense.this, "Itemi i selektum >>" + arrayListCategories.get(i).getCategoryName(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isIncome) {
                     if (!editText.getText().toString().isEmpty()) {
-                        //Shtimi i te dhenave ne Databaze
+                        value = Double.parseDouble(editText.getText().toString());
+                        if(value < dataBaseSource.getBalance().getTotalBalance()) {
+                            Date d;
+                            if (isDaySelected) {
+                                d = new Date(myYear - 1900, myMonth, myDay);
+                            } else {
+                                d = new Date();
+                            }
 
-                        Expense expense = new Expense(50.00,dateFormat.format(new Date()),8);
-                        Expense expense2 = new Expense(23.00,"01/01/2017",9);
-
-                        Income income = new Income(24.04,dateFormat.format(new Date()),2);
-                        Income income1 = new Income(43.00,"01/01/2017",1);
-                        Log.d("Buttoni: ", expense.toString());
-                        Log.d("Buttoni: ", expense2.toString());
-                        Log.d("Buttoni: ", income.toString());
-                        Log.d("Buttoni: ", income1.toString());
-
-                        dataBaseSource.insertIntoExpense(expense);
-                        dataBaseSource.insertIntoIncome(income);
-                        dataBaseSource.insertIntoExpense(expense2);
-                        dataBaseSource.insertIntoIncome(income1);
-
-
+                            Expense expense = new Expense(value, dateFormat.format(d), categorySelected);
+                            dataBaseSource.insertIntoExpense(expense);
+                            int idE = dataBaseSource.getAllExpenses().size();
+                            dataBaseSource.insertIntoIncomeOrExpense(-1, idE, Integer.parseInt(sf.format(d)));
+                            dataBaseSource.removeValueFromBalance(value);
+                            finish();
+                        } else {
+                            Toast.makeText(addInIncomeOrExpense.this, "Nuk keni para të mjaftueshme!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         textInputLayout.setError(getString(R.string.empty));
                     }
                 } else {
                     if (!editText.getText().toString().isEmpty()) {
-                        //Shtimi i te dhenave ne Databaze
-                        //db.insertInIncome();
+                        Date d;
+                        if(isDaySelected){
+                            d = new Date(myYear-1900,myMonth,myDay);
+                        } else {
+                            d = new Date();
+                        }
+                        value = Double.parseDouble(editText.getText().toString());
 
-
+                        Income income = new Income(value,dateFormat.format(d),categorySelected);
+                        dataBaseSource.insertIntoIncome(income);
+                        int id = dataBaseSource.getAllIncome().size();
+                        dataBaseSource.insertIntoIncomeOrExpense(id,-1,Integer.parseInt(sf.format(d)));
+                        dataBaseSource.addValueInBalance(value);
+                        finish();
                     } else {
                         textInputLayout.setError(getString(R.string.empty));
                     }
@@ -203,7 +205,6 @@ public class addInIncomeOrExpense extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDialog(dialogID);
-
             }
         });
     }
@@ -223,11 +224,18 @@ public class addInIncomeOrExpense extends AppCompatActivity {
             myMonth = monthOfYear;
             myDay = dayOfMonth;
 
-            Date daySelected = new Date(myYear, myMonth, myDay - 1);
+            Log.d("Viti/DataPickerDialog", myYear+" ");
+            Log.d("Muji/DataPickerDialog", myMonth+" ");
+            Log.d("Data/DataPickerDialog", myDay+" ");
+
+            daySelected = new Date(myYear-1900, myMonth, myDay);
+
+            Log.d("DaySelected:", daySelected+"");
+
             SimpleDateFormat myFormat = new SimpleDateFormat("EEE");
             myAlbDay = myFormat.format(daySelected);
             myAlbMonth = ALBMONTHS[myMonth];
-
+            isDaySelected = true;
             dateTexttoSet = dateConverter(myAlbDay)+", " + myDay +" "+ myAlbMonth + ", " + myYear;
             dateTextView.setText(dateTexttoSet);
         }
@@ -235,13 +243,13 @@ public class addInIncomeOrExpense extends AppCompatActivity {
 
     public String dateConverter(String theKey){
         Map<String,String> valuesNeded = new HashMap<String,String>()
-        {{  put("Mon", "Hen");
-            put("Tue", "Mar");
-            put("Wed", "Mer");
-            put("Thu", "Enj");
-            put("Fri", "Pre");
-            put("Sat", "Sht");
-            put("Sun", "Die");
+        {{  put("Mon", "E Hënë");
+            put("Tue", "E Martë");
+            put("Wed", "E Mërkurë");
+            put("Thu", "E Enjte");
+            put("Fri", "E Premte");
+            put("Sat", "E Shtunë");
+            put("Sun", "E Diel");
         }};
 
         return (String) valuesNeded.get(theKey);

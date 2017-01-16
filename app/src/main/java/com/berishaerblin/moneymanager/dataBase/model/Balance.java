@@ -9,6 +9,7 @@ public class Balance {
     private int idBalance;
     private double totalBalance;
 
+    public Balance(){}
     public Balance(int idBalance, double totalBalance){
         this.idBalance = idBalance;
         this.totalBalance = totalBalance;

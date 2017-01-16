@@ -19,22 +19,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".splashAndintro.IntroScreenSlider"
-            android:theme="@style/AppTheme.NoStatusBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoStatusBar" />
+        <activity android:name=".Category.Pasqyra.addInIncomeOrExpense" />
 
-        <activity android:name=".Category.Pasqyra.addInIncomeOrExpense"></activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".Category.Kursimet.addKursime"></activity>
     </application>
 
 </manifest>
