@@ -14,6 +14,7 @@ import com.berishaerblin.moneymanager.dataBase.model.Category;
 import com.berishaerblin.moneymanager.dataBase.model.Expense;
 import com.berishaerblin.moneymanager.dataBase.model.Income;
 import com.berishaerblin.moneymanager.dataBase.model.IncomeExpense;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,8 +75,10 @@ public class CustomAdapterPasqyra extends BaseAdapter {
             int resId = context.getResources().getIdentifier(c.getCategoryImage().split("\\.")[2], "drawable", context.getPackageName());
 
             date.setText(income.getIncomeDate());
-            icon.setImageResource(resId);
+            //icon.setImageResource(resId);
             title.setText(c.getCategoryName());
+            Picasso.with(context).load(resId).into(icon);
+
 
         } else {
             Expense expense = dataBaseSource.getExpenseById(i.getIdExpense());
@@ -86,8 +89,9 @@ public class CustomAdapterPasqyra extends BaseAdapter {
             int resId = context.getResources().getIdentifier(c.getCategoryImage().split("\\.")[2], "drawable", context.getPackageName());
 
             date.setText(expense.getExpenseDate());
-            icon.setImageResource(resId);
+            //icon.setImageResource(resId);
             title.setText(c.getCategoryName());
+            Picasso.with(context).load(resId).into(icon);
         }
         return view;
     }

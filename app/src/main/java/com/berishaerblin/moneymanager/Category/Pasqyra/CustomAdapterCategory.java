@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.berishaerblin.moneymanager.R;
 import com.berishaerblin.moneymanager.dataBase.model.Category;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,7 +54,8 @@ public class CustomAdapterCategory extends BaseAdapter {
         TextView title = (TextView) view.findViewById(R.id.list_title);
 
         int resId = context.getResources().getIdentifier(categories.get(i).getCategoryImage().split("\\.")[2], "drawable", context.getPackageName());
-        icon.setImageResource(resId);
+        //icon.setImageResource(resId);
+        Picasso.with(context).load(resId).into(icon);
         title.setText(categories.get(i).getCategoryName());
         return view;
     }

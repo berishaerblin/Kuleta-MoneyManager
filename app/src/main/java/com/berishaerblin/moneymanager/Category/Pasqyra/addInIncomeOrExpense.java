@@ -68,7 +68,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
     boolean isDaySelected = false;
     DataBaseSource dataBaseSource;
     CustomAdapterCategory customAdapterCategory;
-    int categorySelected;
+    int categorySelected = -1;
     double value;
     List<Category> arrayListCategories;
     Balance balance;
@@ -125,6 +125,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                 arrayListCategories.clear();
                 arrayListCategories.addAll(dataBaseSource.getCategoriesByType("INCOME"));
                 customAdapterCategory.notifyDataSetChanged();
+
             }
         });
 
@@ -137,6 +138,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                 arrayListCategories.clear();
                 arrayListCategories.addAll(dataBaseSource.getCategoriesByType("EXPENSE"));
                 customAdapterCategory.notifyDataSetChanged();
+
 
             }
         });
@@ -153,8 +155,9 @@ public class addInIncomeOrExpense extends AppCompatActivity {
             public void onClick(View view) {
                 if (!isIncome) {
                     if (!editText.getText().toString().isEmpty()) {
+                        if (categorySelected != -1){
                         value = Double.parseDouble(editText.getText().toString());
-                        if(value < dataBaseSource.getBalance().getTotalBalance()) {
+                        if(value <= dataBaseSource.getBalance().getTotalBalance()) {
                             Date d;
                             if (isDaySelected) {
                                 d = new Date(myYear - 1900, myMonth, myDay);
@@ -168,28 +171,36 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                             dataBaseSource.insertIntoIncomeOrExpense(-1, idE, Integer.parseInt(sf.format(d)));
                             dataBaseSource.removeValueFromBalance(value);
                             finish();
-                        } else {
+                        }else {
                             Toast.makeText(addInIncomeOrExpense.this, "Nuk keni para të mjaftueshme!", Toast.LENGTH_SHORT).show();
+                        }
+                        } else{
+                            Toast.makeText(addInIncomeOrExpense.this, "Zgjedhe Kategorinë!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         textInputLayout.setError(getString(R.string.empty));
                     }
                 } else {
                     if (!editText.getText().toString().isEmpty()) {
-                        Date d;
-                        if(isDaySelected){
-                            d = new Date(myYear-1900,myMonth,myDay);
-                        } else {
-                            d = new Date();
-                        }
-                        value = Double.parseDouble(editText.getText().toString());
+                        if (categorySelected != -1) {
+                            Date d;
+                            if (isDaySelected) {
+                                d = new Date(myYear - 1900, myMonth, myDay);
+                            } else {
+                                d = new Date();
+                            }
+                            value = Double.parseDouble(editText.getText().toString());
 
-                        Income income = new Income(value,dateFormat.format(d),categorySelected);
-                        dataBaseSource.insertIntoIncome(income);
-                        int id = dataBaseSource.getAllIncome().size();
-                        dataBaseSource.insertIntoIncomeOrExpense(id,-1,Integer.parseInt(sf.format(d)));
-                        dataBaseSource.addValueInBalance(value);
-                        finish();
+                            Income income = new Income(value, dateFormat.format(d), categorySelected);
+                            dataBaseSource.insertIntoIncome(income);
+                            int id = dataBaseSource.getAllIncome().size();
+                            dataBaseSource.insertIntoIncomeOrExpense(id, -1, Integer.parseInt(sf.format(d)));
+                            dataBaseSource.addValueInBalance(value);
+                            finish();
+                        }
+                        else{
+                            Toast.makeText(addInIncomeOrExpense.this, "Zgjedhe Kategorinë!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         textInputLayout.setError(getString(R.string.empty));
                     }
@@ -211,8 +222,16 @@ public class addInIncomeOrExpense extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        Date start = cal.getTime();
+
         if (id == dialogID) {
-            return new DatePickerDialog(this, datePicker, myYear, myMonth, myDay);
+           DatePickerDialog d = new DatePickerDialog(this, datePicker, myYear, myMonth, myDay);
+            d.getDatePicker().setMaxDate(System.currentTimeMillis());
+            d.getDatePicker().setMinDate(start.getTime());
+            return d;
         }
         return null;
     }
