@@ -90,8 +90,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
     public static final String fBBalance = "fBBalance";
 
 
-
-
     public DataBaseSource(Context context) {
         super(context, moneyManagerDataBase, null, 1);
     }
@@ -99,58 +97,54 @@ public class DataBaseSource extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+balanceTable+"("
-                +idBalance+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +idBalance+" INTEGER PRIMARY KEY, "
                 +totalBalance+" DOUBLE);");
 
         db.execSQL("CREATE TABLE " + categoryTable + "("
-                + idCategory + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + idCategory + " INTEGER PRIMARY KEY, "
                 + categoryName + " TEXT NOT NULL, "
                 + categoryType + " TEXT NOT NULL, "
                 + categoryImage + " TEXT NOT NULL );");
 
         db.execSQL("CREATE TABLE "+incomeTable+"("
-                +idIncome+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +idIncome+" INTEGER PRIMARY KEY, "
                 +incomeValue+" DOUBLE NOT NULL, "
                 +incomeDate+" TEXT, "
                 +fICategoryType+" INTEGER, "
-                +fIBalance+" INTEGER, "
-                +"FOREIGN KEY ("+fICategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ,"
-                +"FOREIGN KEY ("+fIBalance+") REFERENCES "+balanceTable+" ("+idBalance+") );");
+                +"FOREIGN KEY ("+fICategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") );");
 
         db.execSQL("CREATE TABLE "+expenseTable+"("
-                +idExpense+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +idExpense+" INTEGER PRIMARY KEY, "
                 +expenseValue+" DOUBLE NOT NULL, "
                 +expenseDate+" TEXT, "
                 +fECategoryType+" INTEGER, "
-                +fEBalance+" INTEGER, "
-                +"FOREIGN KEY ("+fECategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") ,"
-                +"FOREIGN KEY ("+fEBalance+") REFERENCES "+balanceTable+" ("+idBalance+") );");
+                +"FOREIGN KEY ("+fECategoryType+") REFERENCES "+categoryTable+" ("+idCategory+") );");
 
         db.execSQL("CREATE TABLE "+historyTable+"("
-                +idHistory+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +idHistory+" INTEGER PRIMARY KEY, "
                 +historyTitle+" TEXT NOT NULL, "
                 +fIncomeHistory+" INTEGER, "
                 +fExpenseHistory+" INTEGER, "
-                +"FOREIGN KEY ("+fIncomeHistory+") REFERENCES "+incomeTable+" ("+idIncome+") ON DELETE CASCADE "+"ON UPDATE CASCADE "
-                +"FOREIGN KEY ("+fExpenseHistory+") REFERENCES "+expenseTable+" ("+idExpense+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+                +"FOREIGN KEY ("+fIncomeHistory+") REFERENCES "+incomeTable+" ("+idIncome+"), "
+                +"FOREIGN KEY ("+fExpenseHistory+") REFERENCES "+expenseTable+" ("+idExpense+") );");
 
         db.execSQL("CREATE TABLE "+savingsTable+"("
-                +idSavings+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +idSavings+" INTEGER PRIMARY KEY, "
                 +savingsTitle+" TEXT, "
                 +savingsValue+" DOUBLE NOT NULL, "
                 +savingsDate+" TEXT, "
-                +fSBalance+" INTEGER, "
-                +"FOREIGN KEY ("+fSBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+                +fSBalance+" INTEGER);");
+//                +"FOREIGN KEY ("+fSBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
         db.execSQL("CREATE TABLE "+borrowingTable+"("
-                +idBorrowing+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +idBorrowing+" INTEGER PRIMARY KEY, "
                 +borrowingTitle+" TEXT, "
                 +borrowingType+" TEXT, "
                 +borrowingDate+" TEXT, "
                 +borrowingValue+" DOUBLE, "
                 +borrowingInteres+" DOUBLE, "
-                +fBBalance+" INTEGER, "
-                +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+                +fBBalance+" INTEGER);");
+//                +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Rrogë','INCOME','R.drawable.salary' );" );
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shpërblim','INCOME','R.drawable.bonus' );" );
@@ -181,8 +175,17 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+historyTable);
         db.execSQL("DROP TABLE IF EXISTS "+savingsTable);
         db.execSQL("DROP TABLE IF EXISTS "+borrowingTable);
+
         onCreate(db);
 
+    }
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+       if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+        db.execSQL("PRAGMA foreign_keys=ON;");
+       }
     }
 
     public void insertIntoIncome(Income income){
@@ -191,8 +194,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
         contentValues.put(incomeValue, income.getIncomeValue());
         contentValues.put(incomeDate, income.getIncomeDate());
         contentValues.put(fICategoryType, income.getfICategoryType());
-        contentValues.put(fIBalance, income.getfIBalance());
-
         db.insert(incomeTable, null, contentValues);
         db.close();
     }
@@ -230,9 +231,10 @@ public class DataBaseSource extends SQLiteOpenHelper {
         contentValues.put(expenseValue, expense.getExpenseValue());
         contentValues.put(expenseDate, expense.getExpenseDate());
         contentValues.put(fECategoryType, expense.getfECategoryType());
-        contentValues.put(fEBalance, expense.getfEBalance());
 
+        Log.d("Databaza-Expense: ", expense.toString());
         db.insert(expenseTable, null, contentValues);
+
         db.close();
     }
 
@@ -264,8 +266,8 @@ public class DataBaseSource extends SQLiteOpenHelper {
         List<Object> liste = new ArrayList<Object>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT * from "+incomeTable+" where "+incomeDate+" = '"+strDt+"'" +
-                      " UNION SELECT * from "+expenseTable+" where "+expenseDate+" = '"+strDt+"'";
+        String selectQuery = "SELECT * FROM "+incomeTable+" INNER JOIN "+expenseTable+" ON "+incomeTable+"."+incomeDate+"="+"'"+strDt+"'"+" AND "+expenseTable+"."+expenseDate+"="+"'"+strDt+"'";
+
         Log.d("getAllOfMonth > ", selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
@@ -273,23 +275,45 @@ public class DataBaseSource extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 Log.d("getColumnName(0)>>",c.getColumnName(0));
-                if (c.getColumnName(0).equals(idExpense)) {
+
+                if (c.getColumnName(0).equals(c.getString(0))) {
                     Expense e = new Expense();
-                    e.setIdExpense(c.getColumnIndex(idExpense));
-                    e.setfECategoryType(c.getColumnIndex(fECategoryType));
-                    e.setfEBalance(c.getColumnIndex(fEBalance));
-                    e.setExpenseDate(c.getString(c.getColumnIndex(expenseDate)));
-                    e.setExpenseValue(c.getColumnIndex(expenseValue));
+                    e.setIdExpense(Integer.parseInt(c.getString(0)));
+                    e.setExpenseValue(Double.parseDouble(c.getString(1)));
+                    e.setExpenseDate(c.getString(2));
+                    e.setfECategoryType(Integer.parseInt(c.getString(3)));
+                    Log.d("getExpense: ", e.toString());
                     liste.add(e);
                 } else {
                     Income i = new Income();
-                    i.setIdIncome(c.getColumnIndex(idIncome));
-                    i.setfICategoryType(c.getColumnIndex(fICategoryType));
-                    i.setfIBalance(c.getColumnIndex(fIBalance));
-                    i.setIncomeDate(c.getString(c.getColumnIndex(incomeDate)));
-                    i.setIncomeValue(c.getColumnIndex(incomeValue));
+                    i.setIdIncome(Integer.parseInt(c.getString(0)));
+                    i.setIncomeValue(Double.parseDouble(c.getString(1)));
+                    i.setIncomeDate(c.getString(2));
+                    i.setfICategoryType(Integer.parseInt(c.getString(3)));
+                    Log.d("getIncome: ", i.toString());
                     liste.add(i);
                 }
+            } while (c.moveToNext());
+        }
+        return liste;
+    }
+
+    public List<Expense> getAllExpenses(){
+        List<Expense> liste = new ArrayList<Expense>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM "+expenseTable;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                    Expense e = new Expense();
+                    e.setIdExpense(Integer.parseInt(c.getString(0)));
+                    e.setExpenseValue(Double.parseDouble(c.getString(1)));
+                    e.setExpenseDate(c.getString(2));
+                    e.setfECategoryType(Integer.parseInt(c.getString(3)));
+                    liste.add(e);
+                    Log.d("getAllExpenses: ", e.toString());
             } while (c.moveToNext());
         }
         return liste;
@@ -318,22 +342,37 @@ public class DataBaseSource extends SQLiteOpenHelper {
         return categories;
     }
 
-    public Category getCategory(long category_id) {
+//    public Category getCategory(long category_id) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        String selectQuery = "SELECT * FROM " + categoryTable + " WHERE " + idCategory + " = " + category_id;
+//
+//        Log.d("- DB - getCateogry", selectQuery);
+//
+//        Cursor c = db.rawQuery(selectQuery, null);
+//        if (c != null)
+//            c.moveToFirst();
+//
+//        Category ctg = new Category();
+//        ctg.setIdCategory(c.getColumnIndex(idCategory));
+//        ctg.setCategoryName(c.getString(c.getColumnIndex(categoryName)));
+//        ctg.setCategoryType(c.getString(c.getColumnIndex(categoryType)));
+//        ctg.setCategoryImage(c.getString(c.getColumnIndex(categoryImage)));
+//
+//        return ctg;
+//    }
+
+    public Category getCategory(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + categoryTable + " WHERE " + idCategory + " = " + category_id;
 
-        Log.d("- DB - getCateogry", selectQuery);
-
-        Cursor c = db.rawQuery(selectQuery, null);
-        if (c != null)
-            c.moveToFirst();
-
-        Category ctg = new Category();
-        ctg.setIdCategory(c.getColumnIndex(idCategory));
-        ctg.setCategoryName(c.getString(c.getColumnIndex(categoryName)));
-        ctg.setCategoryType(c.getString(c.getColumnIndex(categoryType)));
-        ctg.setCategoryImage(c.getString(c.getColumnIndex(categoryImage)));
-
-        return ctg;
+        Cursor cursor = db.query(categoryTable, new String[] { idCategory,
+                        categoryName, categoryType, categoryImage }, idCategory + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        Log.d("- DB - getCateogry", cursor.getString(2));
+        Category contact = new Category(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2),cursor.getString(3));
+        // return contact
+        return contact;
     }
 }

@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,11 +105,8 @@ public class addInIncomeOrExpense extends AppCompatActivity {
 
         dateTextView.setText(dateTexttoSet);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Expense e = new Expense(1,50.00,dateFormat.format(new Date()),8,1);
-//        dataBaseSource.insertIntoExpense(e);
-        Income i = new Income(20.00,dateFormat.format(new Date()),4,1);
-        dataBaseSource.insertIntoIncome(i);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 //        calendar.setTimeInMillis(System.currentTimeMillis());
 
 //                + ", "
@@ -164,7 +162,21 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                 if (!isIncome) {
                     if (!editText.getText().toString().isEmpty()) {
                         //Shtimi i te dhenave ne Databaze
-                        //db.insertInExpense();
+
+                        Expense expense = new Expense(50.00,dateFormat.format(new Date()),8);
+                        Expense expense2 = new Expense(23.00,"01/01/2017",9);
+
+                        Income income = new Income(24.04,dateFormat.format(new Date()),2);
+                        Income income1 = new Income(43.00,"01/01/2017",1);
+                        Log.d("Buttoni: ", expense.toString());
+                        Log.d("Buttoni: ", expense2.toString());
+                        Log.d("Buttoni: ", income.toString());
+                        Log.d("Buttoni: ", income1.toString());
+
+                        dataBaseSource.insertIntoExpense(expense);
+                        dataBaseSource.insertIntoIncome(income);
+                        dataBaseSource.insertIntoExpense(expense2);
+                        dataBaseSource.insertIntoIncome(income1);
 
 
                     } else {

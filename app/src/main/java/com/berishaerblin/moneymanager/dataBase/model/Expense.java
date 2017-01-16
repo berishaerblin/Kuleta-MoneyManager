@@ -13,22 +13,20 @@ public class Expense {
     private double expenseValue;
     private String expenseDate;
     private int fECategoryType;
-    private int fEBalance;
 
     public Expense(){}
-    public Expense(double expenseValue, String expenseDate, int fECategoryType, int fEBalance) {
-        this.expenseValue = expenseValue;
-        this.expenseDate = expenseDate;
-        this.fECategoryType = fECategoryType;
-        this.fEBalance = fEBalance;
-    }
 
-    public Expense(int idExpense, double expenseValue, String expenseDate, int fECategoryType, int fEBalance) {
+    public Expense(int idExpense, double expenseValue, String expenseDate, int fECategoryType) {
         this.idExpense = idExpense;
         this.expenseValue = expenseValue;
         this.expenseDate = expenseDate;
         this.fECategoryType = fECategoryType;
-        this.fEBalance = fEBalance;
+    }
+
+    public Expense(double expenseValue, String expenseDate, int fECategoryType) {
+        this.expenseValue = expenseValue;
+        this.expenseDate = expenseDate;
+        this.fECategoryType = fECategoryType;
     }
 
     public int getIdExpense() {
@@ -63,11 +61,8 @@ public class Expense {
         this.fECategoryType = fECategoryType;
     }
 
-    public double getfEBalance() {
-        return fEBalance;
-    }
-
-    public void setfEBalance(int fEBalance) {
-        this.fEBalance = fEBalance;
+    @Override
+    public String toString() {
+        return idExpense+"/"+expenseValue+"/"+fECategoryType;
     }
 }

@@ -50,15 +50,8 @@ public class Pasqyra extends Fragment {
         mirrors = new ArrayList<Object>();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//
-//        Balance b = new Balance(500.00);
-//        dataBaseSource.createBalance(b);
 
-        Income i = new Income(20.00,dateFormat.format(new Date()),4,1);
-        Expense e = new Expense(60.00,dateFormat.format(new Date()),6,1);
-
-        mirrors.add(e);
-        mirrors.add(i);
+        mirrors.addAll(dataBaseSource.getAllIncomeAndExpenseOfMonth("01/01/2017"));
 
         customAdapterPasqyra = new CustomAdapterPasqyra(getContext(),mirrors);
         listView.setAdapter(customAdapterPasqyra);

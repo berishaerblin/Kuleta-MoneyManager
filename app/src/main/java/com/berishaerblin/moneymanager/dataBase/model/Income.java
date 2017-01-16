@@ -12,23 +12,21 @@ public class Income {
     private double incomeValue;
     private String incomeDate;
     private int fICategoryType;
-    private int fIBalance;
 
     public Income(){}
 
-    public Income(double incomeValue, String incomeDate, int fICategoryType, int fIBalance) {
+    public Income(double incomeValue, String incomeDate, int fICategoryType) {
         this.incomeValue = incomeValue;
         this.incomeDate = incomeDate;
         this.fICategoryType = fICategoryType;
 
     }
 
-    public Income(int idIncome, double incomeValue, String incomeDate, int fICategoryType, int fIBalance) {
+    public Income(int idIncome, double incomeValue, String incomeDate, int fICategoryType) {
         this.idIncome = idIncome;
         this.incomeValue = incomeValue;
         this.incomeDate = incomeDate;
         this.fICategoryType = fICategoryType;
-        this.fIBalance = fIBalance;
     }
 
     public int getIdIncome() {
@@ -63,11 +61,8 @@ public class Income {
         this.fICategoryType = fICategoryType;
     }
 
-    public int getfIBalance() {
-        return fIBalance;
-    }
-
-    public void setfIBalance(int fIBalance) {
-        this.fIBalance = fIBalance;
+    @Override
+    public String toString() {
+        return idIncome+"/"+incomeValue+"/"+fICategoryType;
     }
 }
