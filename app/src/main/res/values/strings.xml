@@ -50,6 +50,7 @@
     <string name="surname">Mbiemri</string>
     <string name="hint_title">Titulli</string>
     <string name="addKursime">Kursim i ri</string>
+    <string name="convert">Konvertime</string>
 
 
 </resources>

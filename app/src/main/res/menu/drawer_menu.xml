@@ -32,6 +32,12 @@
             android:title="@string/histori"
             android:icon="@drawable/ic_histori">
         </item>
+
+        <item
+            android:id="@+id/konvertime"
+            android:title="@string/convert"
+            android:icon="@drawable/ic_convert">
+        </item>
     </group>
 
 

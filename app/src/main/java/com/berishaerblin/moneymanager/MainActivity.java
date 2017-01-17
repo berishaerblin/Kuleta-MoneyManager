@@ -23,6 +23,7 @@ import com.berishaerblin.moneymanager.Category.Cilesimet;
 import com.berishaerblin.moneymanager.Category.Histori;
 import com.berishaerblin.moneymanager.Category.Huazimet;
 import com.berishaerblin.moneymanager.Category.Kategoria;
+import com.berishaerblin.moneymanager.Category.Konvertime.Konvertime;
 import com.berishaerblin.moneymanager.Category.Kursimet.Kursimet;
 import com.berishaerblin.moneymanager.Category.Pasqyra.Pasqyra;
 import com.berishaerblin.moneymanager.Category.RrethNesh;
@@ -166,6 +167,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.replace(R.id.main_container, new Histori());
                 fragmentTransaction.commit();
                 getSupportActionBar().setTitle(R.string.histori);
+                item.setCheckable(true);
+                drawerLayout.closeDrawers();
+                break;
+
+            case R.id.konvertime:
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.main_container, new Konvertime());
+                fragmentTransaction.commit();
+                getSupportActionBar().setTitle(R.string.convert);
                 item.setCheckable(true);
                 drawerLayout.closeDrawers();
                 break;
