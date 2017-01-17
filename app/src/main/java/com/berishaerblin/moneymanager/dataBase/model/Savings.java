@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by berishaerblin on 12/3/16.
+ * Edited by mkrasniqi on 01/17/17
  */
 
 public class Savings {
@@ -11,15 +12,21 @@ public class Savings {
     private int idSavings;
     private String savingsTitle;
     private double savingsValue;
-    private Date savingsDate;
-    private int fSBalance;
+    private String savingsDate;
 
-    public Savings(int idSavings, String savingsTitle, double savingsValue, Date savingsDate, int fSBalance) {
+    public Savings(){}
+
+    public Savings(int idSavings, String savingsTitle, double savingsValue, String savingsDate) {
         this.idSavings = idSavings;
         this.savingsTitle = savingsTitle;
         this.savingsValue = savingsValue;
         this.savingsDate = savingsDate;
-        this.fSBalance = fSBalance;
+    }
+
+    public Savings(String savingsTitle, double savingsValue, String savingsDate) {
+        this.savingsTitle = savingsTitle;
+        this.savingsValue = savingsValue;
+        this.savingsDate = savingsDate;
     }
 
     public int getIdSavings() {
@@ -46,19 +53,16 @@ public class Savings {
         this.savingsValue = savingsValue;
     }
 
-    public Date getSavingsDate() {
+    public String getSavingsDate() {
         return savingsDate;
     }
 
-    public void setSavingsDate(Date savingsDate) {
+    public void setSavingsDate(String savingsDate) {
         this.savingsDate = savingsDate;
     }
 
-    public int getfSBalance() {
-        return fSBalance;
-    }
-
-    public void setfSBalance(int fSBalance) {
-        this.fSBalance = fSBalance;
+    @Override
+    public String toString() {
+        return idSavings+"";
     }
 }

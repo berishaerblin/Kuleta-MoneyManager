@@ -60,7 +60,6 @@ public class addInIncomeOrExpense extends AppCompatActivity {
     Calendar calendar = Calendar.getInstance();
     private String currentDateString;
     private static final String[] ALBMONTHS = {"Jan", "Shk", "Mar", "Pri", "Maj", "Qer", "Korr", "Gush", "Shta", "Tet", "Nen", "Dhj"};
-    //public static final String[] ALBDAYS = {"", "Die", "Hen", "Mar", "Mer", "Enj", "Pre", "Sht"};
     private String myAlbDay;
     private String myAlbMonth;
     String dateTexttoSet;
@@ -71,7 +70,6 @@ public class addInIncomeOrExpense extends AppCompatActivity {
     int categorySelected = -1;
     double value;
     List<Category> arrayListCategories;
-    Balance balance;
     SimpleDateFormat sf;
 
     @Override

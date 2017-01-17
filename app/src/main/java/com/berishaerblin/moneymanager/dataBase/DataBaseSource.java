@@ -14,6 +14,8 @@ import com.berishaerblin.moneymanager.dataBase.model.Category;
 import com.berishaerblin.moneymanager.dataBase.model.Expense;
 import com.berishaerblin.moneymanager.dataBase.model.Income;
 import com.berishaerblin.moneymanager.dataBase.model.IncomeExpense;
+import com.berishaerblin.moneymanager.dataBase.model.Savings;
+import com.berishaerblin.moneymanager.dataBase.model.SavingsItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,7 +82,14 @@ public class DataBaseSource extends SQLiteOpenHelper {
     public static final String savingsTitle = "savingsTitle";
     public static final String savingsValue = "savingsValue";
     public static final String savingsDate = "savingsDate";
-    public static final String fSBalance = "fSBalance";
+
+    //SavingsItem Table
+    public static final String savingsItemTable = "savingsItemTable";
+    public static final String idSavingsItem = "idSavingsItem";
+    public static final String idSSavingsItem = "idSSavingsItem";
+    public static final String SavingsItemValue = "SavingsItemValue";
+    public static final String SavingsItemDate = "SavingsItemDate";
+
 
     //Borrowing Table
     public static final String borrowingTable = "borrowingTable";
@@ -109,6 +118,12 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 + categoryType + " TEXT NOT NULL, "
                 + categoryImage + " TEXT NOT NULL );");
 
+        db.execSQL("CREATE TABLE "+savingsItemTable+"("
+                +idSavingsItem+" INTEGER PRIMARY KEY, "
+                +idSSavingsItem+" INTEGER, "
+                +SavingsItemValue+" DOUBLE NOT NULL, "
+                +SavingsItemDate+" TEXT ); ");
+
         db.execSQL("CREATE TABLE "+incomeTable+"("
                 +idIncome+" INTEGER PRIMARY KEY, "
                 +incomeValue+" DOUBLE NOT NULL, "
@@ -133,17 +148,13 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +idHistory+" INTEGER PRIMARY KEY, "
                 +historyTitle+" TEXT NOT NULL, "
                 +fIncomeHistory+" INTEGER, "
-                +fExpenseHistory+" INTEGER, "
-                +"FOREIGN KEY ("+fIncomeHistory+") REFERENCES "+incomeTable+" ("+idIncome+"), "
-                +"FOREIGN KEY ("+fExpenseHistory+") REFERENCES "+expenseTable+" ("+idExpense+") );");
+                +fExpenseHistory+" INTEGER ); ");
 
         db.execSQL("CREATE TABLE "+savingsTable+"("
                 +idSavings+" INTEGER PRIMARY KEY, "
                 +savingsTitle+" TEXT, "
                 +savingsValue+" DOUBLE NOT NULL, "
-                +savingsDate+" TEXT, "
-                +fSBalance+" INTEGER);");
-//                +"FOREIGN KEY ("+fSBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
+                +savingsDate+" TEXT ); ");
 
         db.execSQL("CREATE TABLE "+borrowingTable+"("
                 +idBorrowing+" INTEGER PRIMARY KEY, "
@@ -153,7 +164,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +borrowingValue+" DOUBLE, "
                 +borrowingInteres+" DOUBLE, "
                 +fBBalance+" INTEGER);");
-//                +"FOREIGN KEY ("+fBBalance+") REFERENCES "+balanceTable+" ("+idBalance+") ON DELETE CASCADE "+"ON UPDATE CASCADE);");
 
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Rrogë','INCOME','R.drawable.salary' );" );
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shpërblim','INCOME','R.drawable.bonus' );" );
@@ -184,6 +194,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+incomeexpenseTable);
         db.execSQL("DROP TABLE IF EXISTS "+historyTable);
         db.execSQL("DROP TABLE IF EXISTS "+savingsTable);
+        db.execSQL("DROP TABLE IF EXISTS "+savingsItemTable);
         db.execSQL("DROP TABLE IF EXISTS "+borrowingTable);
 
         onCreate(db);
@@ -195,11 +206,9 @@ public class DataBaseSource extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(idBalance, 1);
         contentValues.put(totalBalance, value);
-
         db.insert(balanceTable, null, contentValues);
         db.close();
     }
-
 
     public Balance getBalance() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -223,9 +232,26 @@ public class DataBaseSource extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(totalBalance, getBalance().getTotalBalance()-value);
-
         db.update(balanceTable, contentValues, "idBalance = 1", null);
         db.close();
+    }
+
+    public void createSavings(Savings savings){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(savingsTitle, savings.getSavingsTitle());
+        contentValues.put(savingsValue, savings.getSavingsValue());
+        contentValues.put(savingsDate, savings.getSavingsDate());
+        db.insert(savingsTable,null,contentValues);
+    }
+
+    public void insertIntoSavings(SavingsItem savingsItem){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(idSSavingsItem, savingsItem.getIdSavings());
+        contentValues.put(SavingsItemValue, savingsItem.getValue());
+        contentValues.put(SavingsItemDate, savingsItem.getDate());
+        db.insert(savingsItemTable,null,contentValues);
     }
 
     public void insertIntoIncome(Income income){
@@ -238,7 +264,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public void insertIntoExpense(Expense expense){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -246,8 +271,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
         contentValues.put(expenseValue, expense.getExpenseValue());
         contentValues.put(expenseDate, expense.getExpenseDate());
         contentValues.put(fECategoryType, expense.getfECategoryType());
-
-        Log.d("Databaza-Expense: ", expense.toString());
         db.insert(expenseTable, null, contentValues);
         db.close();
     }
@@ -285,7 +308,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
         return liste;
     }
 
-
     public List<Income> getAllIncome(){
         List<Income> liste = new ArrayList<Income>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -306,6 +328,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
         }
         return liste;
     }
+
     public Income getIncomeById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -319,7 +342,6 @@ public class DataBaseSource extends SQLiteOpenHelper {
 
         return income;
     }
-
 
     public List<Expense> getAllExpenses(){
         List<Expense> liste = new ArrayList<Expense>();
@@ -354,6 +376,63 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 Double.valueOf(cursor.getString(1)), cursor.getString(2),Integer.parseInt(cursor.getString(3)));
 
         return expense;
+    }
+
+    public List<Savings> getAllSavings(){
+        List<Savings> liste = new ArrayList<Savings>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM "+savingsTable;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                Savings s = new Savings();
+                s.setIdSavings(Integer.parseInt(c.getString(0)));
+                s.setSavingsTitle(c.getString(1));
+                s.setSavingsValue(Double.parseDouble(c.getString(2)));
+                s.setSavingsDate(c.getString(3));
+                liste.add(s);
+            } while (c.moveToNext());
+        }
+        return liste;
+    }
+
+    public double getSumOfSavingsById(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT SUM("+SavingsItemValue+") FROM "+savingsItemTable+" WHERE "+idSSavingsItem+" = "+id;
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
+
+        return Double.valueOf(cursor.getString(0));
+    }
+
+    public Savings getSavingsById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(savingsTable, new String[] { idSavings,
+                        savingsTitle, savingsValue, savingsDate }, idSavings + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        Savings saving = new Savings(Integer.parseInt(cursor.getString(0)),
+               cursor.getString(1), Double.parseDouble(cursor.getString(2)),cursor.getString(3));
+
+        return saving;
+    }
+    public void deleteItemSavings(int id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + savingsItemTable+ " WHERE "+idSSavingsItem+"='"+id+"'");
+        db.close();
+    }
+
+    public void deleteSavings(int id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + savingsTable+ " WHERE "+idSavings+"='"+id+"'");
+        db.close();
     }
 
     public List<Category> getAllCategories(){

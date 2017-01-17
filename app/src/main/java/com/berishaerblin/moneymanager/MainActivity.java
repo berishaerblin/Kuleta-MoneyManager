@@ -23,7 +23,7 @@ import com.berishaerblin.moneymanager.Category.Cilesimet;
 import com.berishaerblin.moneymanager.Category.Histori;
 import com.berishaerblin.moneymanager.Category.Huazimet;
 import com.berishaerblin.moneymanager.Category.Kategoria;
-import com.berishaerblin.moneymanager.Category.Kursimet;
+import com.berishaerblin.moneymanager.Category.Kursimet.Kursimet;
 import com.berishaerblin.moneymanager.Category.Pasqyra.Pasqyra;
 import com.berishaerblin.moneymanager.Category.RrethNesh;
 import com.berishaerblin.moneymanager.dataBase.DataBaseSource;
