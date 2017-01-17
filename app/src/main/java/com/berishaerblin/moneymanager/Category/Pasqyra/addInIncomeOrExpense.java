@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.DatePicker;
@@ -121,6 +122,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                 incomeColor.setBackgroundColor(getResources().getColor(R.color.incomeColor));
                 isIncome = true;
                 arrayListCategories.clear();
+                categorySelected = -1;
                 arrayListCategories.addAll(dataBaseSource.getCategoriesByType("INCOME"));
                 customAdapterCategory.notifyDataSetChanged();
 
@@ -134,6 +136,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
                 incomeColor.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 expenseColor.setBackgroundColor(getResources().getColor(R.color.expenseColor));
                 arrayListCategories.clear();
+                categorySelected = -1;
                 arrayListCategories.addAll(dataBaseSource.getCategoriesByType("EXPENSE"));
                 customAdapterCategory.notifyDataSetChanged();
 
@@ -144,7 +147,7 @@ public class addInIncomeOrExpense extends AppCompatActivity {
         categoriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               categorySelected = arrayListCategories.get(i).getIdCategory();
+                categorySelected = arrayListCategories.get(i).getIdCategory();
             }
         });
 

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00838F</color>
     <color name="colorAccent">#0097A7</color>
     <color name="white">#FFFFFF</color>
+    <color name="grey">#E0E0E0</color>
     <color name="nav_drawer_header_background">#AA000000</color>
     <color name="expenseColor">#EF5350</color>
     <color name="incomeColor">#9CCC65</color>
