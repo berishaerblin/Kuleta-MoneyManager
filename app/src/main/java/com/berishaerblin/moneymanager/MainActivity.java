@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.berishaerblin.moneymanager.Category.Cilesimet;
 import com.berishaerblin.moneymanager.Category.Histori;
-import com.berishaerblin.moneymanager.Category.Huazimet;
+import com.berishaerblin.moneymanager.Category.Huazimet.Huazimet;
 import com.berishaerblin.moneymanager.Category.Kategoria;
 import com.berishaerblin.moneymanager.Category.Konvertime.Konvertime;
 import com.berishaerblin.moneymanager.Category.Kursimet.Kursimet;

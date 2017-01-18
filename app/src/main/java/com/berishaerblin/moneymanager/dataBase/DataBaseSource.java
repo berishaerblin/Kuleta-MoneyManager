@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.berishaerblin.moneymanager.R;
 import com.berishaerblin.moneymanager.dataBase.model.Balance;
+import com.berishaerblin.moneymanager.dataBase.model.Borrowing;
 import com.berishaerblin.moneymanager.dataBase.model.Category;
 import com.berishaerblin.moneymanager.dataBase.model.Expense;
 import com.berishaerblin.moneymanager.dataBase.model.Income;
@@ -159,11 +160,9 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+borrowingTable+"("
                 +idBorrowing+" INTEGER PRIMARY KEY, "
                 +borrowingTitle+" TEXT, "
-                +borrowingType+" TEXT, "
                 +borrowingDate+" TEXT, "
                 +borrowingValue+" DOUBLE, "
-                +borrowingInteres+" DOUBLE, "
-                +fBBalance+" INTEGER);");
+                +borrowingInteres+" DOUBLE);");
 
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Rrogë','INCOME','R.drawable.salary' );" );
         db.execSQL("INSERT INTO " + categoryTable + " ("+categoryName+", "+categoryType+", "+categoryImage+") VALUES ( 'Shpërblim','INCOME','R.drawable.bonus' );" );
@@ -243,6 +242,16 @@ public class DataBaseSource extends SQLiteOpenHelper {
         contentValues.put(savingsValue, savings.getSavingsValue());
         contentValues.put(savingsDate, savings.getSavingsDate());
         db.insert(savingsTable,null,contentValues);
+    }
+
+    public void createBorrwings(Borrowing borrowing){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(borrowingTitle, borrowing.getBorrowingTitle());
+        contentValues.put(borrowingValue, borrowing.getBorrowingValue());
+        contentValues.put(borrowingDate, borrowing.getBorrowingDate());
+        contentValues.put(borrowingInteres, borrowing.getBorrowingInteres());
+        db.insert(borrowingTable,null,contentValues);
     }
 
     public void insertIntoSavings(SavingsItem savingsItem){
@@ -398,6 +407,40 @@ public class DataBaseSource extends SQLiteOpenHelper {
         return liste;
     }
 
+    public List<Borrowing> getAllBorrowings(){
+        List<Borrowing> liste = new ArrayList<Borrowing>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM "+borrowingTable;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            do {
+                Borrowing b = new Borrowing();
+                b.setIdBorrowing(Integer.parseInt(c.getString(0)));
+                b.setBorrowingTitle(c.getString(1));
+                b.setBorrowingDate(c.getString(2));
+                b.setBorrowingValue(Double.parseDouble(c.getString(3)));
+                b.setBorrowingInteres(Double.parseDouble(c.getString(4)));
+                liste.add(b);
+            } while (c.moveToNext());
+        }
+        return liste;
+    }
+
+    public Borrowing getBorrowingById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(borrowingTable, new String[] { idBorrowing,
+                        borrowingTitle, borrowingDate, borrowingValue, borrowingInteres }, idBorrowing  + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        Borrowing borrowing = new Borrowing(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),Double.valueOf(cursor.getString(3)),Double.valueOf(cursor.getString(4)));
+
+        return borrowing;
+    }
+
     public double getSumOfSavingsById(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -432,6 +475,13 @@ public class DataBaseSource extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + savingsTable+ " WHERE "+idSavings+"='"+id+"'");
+        db.close();
+    }
+
+    public void deleteBorrowing(int id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + borrowingTable+ " WHERE "+idBorrowing+"='"+id+"'");
         db.close();
     }
 

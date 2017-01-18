@@ -37,7 +37,9 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Category.Kursimet.addKursime" />
-        <activity android:name=".Category.Kursimet.addItemintokursimet"></activity>
+        <activity android:name=".Category.Kursimet.addItemintokursimet"/>
+        <activity android:name=".Category.Huazimet.addHuazimet"/>
+        <activity android:name=".Category.Huazimet.OpenBorrow"/>
     </application>
 
 </manifest>

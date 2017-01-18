@@ -11,26 +11,37 @@ public class Borrowing {
     private int idBorrowing;
     private String borrowingTitle;
     private String borrowingType;
-    private Date borrowingDate;
+    private String borrowingDate;
     private double borrowingValue;
     private double borrowingInteres;
-    private int fBBalance;
 
-    public Borrowing(int fBBalance,
-                     int idBorrowing,
-                     String borrowingTitle,
-                     String borrowingType,
-                     Date borrowingDate,
+
+    public Borrowing(){};
+
+    public Borrowing(String borrowingTitle,
+                     String borrowingDate,
                      double borrowingValue,
                      double borrowingInteres) {
-        this.fBBalance = fBBalance;
-        this.idBorrowing = idBorrowing;
+
         this.borrowingTitle = borrowingTitle;
-        this.borrowingType = borrowingType;
         this.borrowingDate = borrowingDate;
         this.borrowingValue = borrowingValue;
         this.borrowingInteres = borrowingInteres;
     }
+
+    public Borrowing(int idBorrowing,
+                     String borrowingTitle,
+                     String borrowingDate,
+                     double borrowingValue,
+                     double borrowingInteres) {
+
+        this.idBorrowing = idBorrowing;
+        this.borrowingTitle = borrowingTitle;
+        this.borrowingDate = borrowingDate;
+        this.borrowingValue = borrowingValue;
+        this.borrowingInteres = borrowingInteres;
+    }
+
 
     public int getIdBorrowing() {
         return idBorrowing;
@@ -48,19 +59,19 @@ public class Borrowing {
         this.borrowingTitle = borrowingTitle;
     }
 
-    public String getBorrowingType() {
-        return borrowingType;
-    }
+//    public String getBorrowingType() {
+//        return borrowingType;
+//    }
 
-    public void setBorrowingType(String borrowingType) {
-        this.borrowingType = borrowingType;
-    }
+//    public void setBorrowingType(String borrowingType) {
+//        this.borrowingType = borrowingType;
+//    }
 
-    public Date getBorrowingDate() {
+    public String getBorrowingDate() {
         return borrowingDate;
     }
 
-    public void setBorrowingDate(Date borrowingDate) {
+    public void setBorrowingDate(String borrowingDate) {
         this.borrowingDate = borrowingDate;
     }
 
@@ -80,11 +91,8 @@ public class Borrowing {
         this.borrowingInteres = borrowingInteres;
     }
 
-    public double getfBBalance() {
-        return fBBalance;
-    }
-
-    public void setfBBalance(int fBBalance) {
-        this.fBBalance = fBBalance;
+    @Override
+    public String toString() {
+        return idBorrowing+"";
     }
 }
