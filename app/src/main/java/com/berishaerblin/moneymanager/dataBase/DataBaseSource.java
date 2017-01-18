@@ -13,6 +13,7 @@ import com.berishaerblin.moneymanager.dataBase.model.Balance;
 import com.berishaerblin.moneymanager.dataBase.model.Borrowing;
 import com.berishaerblin.moneymanager.dataBase.model.Category;
 import com.berishaerblin.moneymanager.dataBase.model.Expense;
+import com.berishaerblin.moneymanager.dataBase.model.History;
 import com.berishaerblin.moneymanager.dataBase.model.Income;
 import com.berishaerblin.moneymanager.dataBase.model.IncomeExpense;
 import com.berishaerblin.moneymanager.dataBase.model.Savings;
@@ -144,12 +145,12 @@ public class DataBaseSource extends SQLiteOpenHelper {
                 +idIIncome+ " INTEGER, "
                 +idEExpense+ " INTEGER, "
                 +ieMonth + " INTEGER );");
-
-        db.execSQL("CREATE TABLE "+historyTable+"("
-                +idHistory+" INTEGER PRIMARY KEY, "
-                +historyTitle+" TEXT NOT NULL, "
-                +fIncomeHistory+" INTEGER, "
-                +fExpenseHistory+" INTEGER ); ");
+//
+//        db.execSQL("CREATE TABLE "+historyTable+"("
+//                +idHistory+" INTEGER PRIMARY KEY, "
+//                +historyTitle+" TEXT NOT NULL, "
+//                +fIncomeHistory+" INTEGER, "
+//                +fExpenseHistory+" INTEGER ); ");
 
         db.execSQL("CREATE TABLE "+savingsTable+"("
                 +idSavings+" INTEGER PRIMARY KEY, "
@@ -191,7 +192,7 @@ public class DataBaseSource extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+incomeTable);
         db.execSQL("DROP TABLE IF EXISTS "+expenseTable);
         db.execSQL("DROP TABLE IF EXISTS "+incomeexpenseTable);
-        db.execSQL("DROP TABLE IF EXISTS "+historyTable);
+//        db.execSQL("DROP TABLE IF EXISTS "+historyTable);
         db.execSQL("DROP TABLE IF EXISTS "+savingsTable);
         db.execSQL("DROP TABLE IF EXISTS "+savingsItemTable);
         db.execSQL("DROP TABLE IF EXISTS "+borrowingTable);
@@ -315,6 +316,37 @@ public class DataBaseSource extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         return liste;
+    }
+
+    public History getHistoryByMonth(int month,String formati) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String muji ="";
+            switch (month){
+                case 1: muji = "Janar"; break;
+                case 2: muji = "Shkurt"; break;
+                case 3: muji = "Mars"; break;
+                case 4: muji = "Prill"; break;
+                case 5: muji = "Maj"; break;
+                case 6: muji = "Qershor"; break;
+                case 7: muji = "Korrik"; break;
+                case 8: muji = "Gusht"; break;
+                case 9: muji = "Shtator"; break;
+                case 10: muji = "Tetor"; break;
+                case 11: muji = "Nentor"; break;
+                case 12: muji = "Dhjetor"; break;
+            }
+
+        String selectQuery = "SELECT SUM("+incomeValue+") FROM "+incomeTable + " WHERE "+incomeDate+" LIKE '%"+formati+"%'";
+        String selectQuery1 = "SELECT SUM("+expenseValue+") FROM "+expenseTable + " WHERE "+expenseDate+" LIKE '%"+formati+"%'";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        c.moveToFirst();
+        Cursor c1 = db.rawQuery(selectQuery1, null);
+        c1.moveToFirst();
+
+        History h = new History(month,muji,Double.valueOf(c.getString(0)),Double.valueOf(c1.getString(0)));
+
+        return h;
     }
 
     public List<Income> getAllIncome(){

@@ -1,23 +1,26 @@
 package com.berishaerblin.moneymanager.dataBase.model;
 
-/**
- * Created by berishaerblin on 12/3/16.
- */
-
 public class History {
 
     private int idHistory;
     private String historyTitle;
-    private int fIncomeHistory;
-    private int fExpenseHistory;
+    private double fIncomeHistory;
+    private double fExpenseHistory;
 
-    public History(int idHistory, String historyTitle, int fIncomeHistory, int fExpenseHistory) {
+    public History(){}
+
+    public History(int idHistory, String historyTitle, double fIncomeHistory, double fExpenseHistory) {
         this.idHistory = idHistory;
         this.historyTitle = historyTitle;
         this.fIncomeHistory = fIncomeHistory;
         this.fExpenseHistory = fExpenseHistory;
     }
 
+    public History(String historyTitle, double fIncomeHistory, double fExpenseHistory){
+        this.historyTitle = historyTitle;
+        this.fIncomeHistory = fIncomeHistory;
+        this.fExpenseHistory = fExpenseHistory;
+    }
 
     public int getIdHistory() {
         return idHistory;
@@ -35,19 +38,24 @@ public class History {
         this.historyTitle = historyTitle;
     }
 
-    public int getfIncomeHistory() {
+    public double getfIncomeHistory() {
         return fIncomeHistory;
     }
 
-    public void setfIncomeHistory(int fIncomeHistory) {
+    public void setfIncomeHistory(double fIncomeHistory) {
         this.fIncomeHistory = fIncomeHistory;
     }
 
-    public int getfExpenseHistory() {
+    public double getfExpenseHistory() {
         return fExpenseHistory;
     }
 
-    public void setfExpenseHistory(int fExpenseHistory) {
+    public void setfExpenseHistory(double fExpenseHistory) {
         this.fExpenseHistory = fExpenseHistory;
+    }
+
+    @Override
+    public String toString() {
+        return fIncomeHistory+"/"+fExpenseHistory;
     }
 }

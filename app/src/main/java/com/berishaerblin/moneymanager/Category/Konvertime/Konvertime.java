@@ -1,17 +1,23 @@
 package com.berishaerblin.moneymanager.Category.Konvertime;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.renderscript.Double2;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -56,6 +62,22 @@ public class Konvertime extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!isInternetConnected()){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle("Çasje me Internet!");
+            alertDialogBuilder.setMessage("Nuk keni çasje në Internet, për konvertim të parave nevojitet çasja në Internet!");
+            alertDialogBuilder.setPositiveButton("Kyçu me Internet",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, (String) null,
                 new Response.Listener<JSONObject>(){
@@ -151,5 +173,28 @@ public class Konvertime extends Fragment{
     public String E2D(double euro){
         DecimalFormat s = new DecimalFormat("#.##");
         return s.format(euro * Double.valueOf(vleraDollarit));
+    }
+
+
+    public boolean isInternetConnected() {
+        ConnectivityManager conMgr = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        boolean ret = true;
+        if (conMgr != null) {
+            NetworkInfo i = conMgr.getActiveNetworkInfo();
+
+            if (i != null) {
+                if (!i.isConnected()) {
+                    ret = false;
+                }
+
+                if (!i.isAvailable()) {
+                    ret = false;
+                }
+            }
+            if (i == null)
+                ret = false;
+        } else
+            ret = false;
+        return ret;
     }
 }
